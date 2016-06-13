@@ -2,14 +2,12 @@ __author__ = 'laila'
 
 
 import numpy.random as random
-import io
-
 
 def import_data():
     provinces = []
     population_per_province = {}
     gender_per_province = {}
-    f = io.open('population_per_province.txt')
+    f = open('population_per_province.txt')
     p = f.readline().replace('\n','')
     while p:
         provinces.append(p)
