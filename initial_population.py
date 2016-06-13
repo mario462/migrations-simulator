@@ -43,17 +43,18 @@ class Agent:
 
 
 def initialize_population():
+    provinces, population_per_province, gender_per_province = import_data()
     agents = []
     for p in provinces:
         for i in range(population_per_province[p]):
             # a = define_age_group(p)
-            g = define_gender(p)
+            g = define_gender(p, gender_per_province)
             l = define_living_place(p.capitalize())
             agents.append(Agent(gender=g,province=p, living_place=l))
     return agents
 
 
-def define_gender(province):
+def define_gender(province, gender_per_province):
     women_percent = gender_per_province[province]
     r = random.uniform(0, 100)
     return 'female' if r < women_percent else 'male'
@@ -82,10 +83,3 @@ def define_living_place(province):
 
 def define_peers(agents, province):
     agents_from_province = [a for a in agents if a.province == province]
-
-
-provinces, population_per_province, gender_per_province = import_data()
-agents = initialize_population()
-for a in agents:
-    print(a)
-
