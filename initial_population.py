@@ -2,6 +2,8 @@ __author__ = 'laila'
 
 
 import numpy.random as random
+import json
+
 
 def import_data():
     provinces = []
@@ -21,9 +23,8 @@ def import_data():
     return provinces, population_per_province, gender_per_province
 
 age_group_per_province = {'La Habana': [12,8,13,7,10,11,9,10]}
-living_place_per_province = {'La Habana':{'La Habana': 80, 'Pinar del Río': 10, 'Matanzas': 10}}
+living_place_per_province = json.load(open('parsed'))
 # marital_status = {'La Habana': []}
-
 
 class Agent:
     def __init__(self, gender, province, living_place, peers=[]):
@@ -47,7 +48,7 @@ def initialize_population():
         for i in range(population_per_province[p]):
             # a = define_age_group(p)
             g = define_gender(p)
-            l = define_living_place(p)
+            l = define_living_place(p.capitalize())
             agents.append(Agent(gender=g,province=p, living_place=l))
     return agents
 
@@ -74,7 +75,7 @@ def define_living_place(province):
     r = random.uniform(0, 100)
     sum = 0
     for p in distribution:
-        sum += distribution[p]
+        sum += int(distribution[p])
         if r <= sum:
             return p
 
