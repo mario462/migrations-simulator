@@ -24,13 +24,9 @@ def import_data():
     return provinces, population_per_province, gender_per_province
 
 # age_group_per_province = {'La Habana': [12,8,13,7,10,11,9,10]}
-living_place_per_province = json.load(open('parsed'))
-salary_per_province = { 'PINAR DEL RÍO': 300, 'ARTEMISA':400, 'LA HABANA':500,
-                        'MAYABEQUE':450, 'ISLA DE LA JUVENTUD':480, 'MATANZAS':520,
-                        'VILLA CLARA': 500, 'CIENFUEGOS':480, 'SANCTI SPÍRITUS':400,
-                        'CIEGO DE ÁVILA':580, 'CAMAGÜEY': 530, 'LAS TUNAS':300, 'HOLGUÍN': 370,
-                        'GRANMA': 390, 'SANTIAGO DE CUBA':450, 'GUANTÁNAMO':290}
 # marital_status = {'La Habana': []}
+living_place_per_province = json.load(open('parsed_migrations'))
+salary_per_province = json.load(open('parsed_salaries'))
 
 
 class Agent:
@@ -60,6 +56,7 @@ class Agent:
 
     def choose_migration_province(self):
         return 'La Habana'
+
 
 def initialize_connections(agents):
     for i in range(len(agents)):
