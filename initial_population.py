@@ -105,7 +105,7 @@ class Agent:
             return 5
         return ((peers_in_province - config.min_peers) / (config.max_peers - config.min_peers)) * 5
 
-    def hipothetical_social_satisfaction(self, province):
+    def hypothetical_social_satisfaction(self, province):
         peers_in_province = len(list(filter(lambda x: x.living_place == province.name, self.peers)))
         if peers_in_province <= config.min_peers:
             return 0
@@ -122,7 +122,7 @@ class Agent:
             return res + 3
         return ((self.salary - config.min_salary) / (config.max_salary - config.min_salary)) * 3 + res
 
-    def hipothetical_economical_satisfaction(self, province):
+    def hypothetical_economical_satisfaction(self, province):
         res = random.uniform(0, 0.5) if define_unemployment(province) else random.uniform(0.5, 1)
         res += random.uniform(0, 0.5) if define_housing(province) else random.uniform(0.5, 1)
         salary = define_salary(province)
@@ -142,7 +142,7 @@ class Agent:
         return ((attractiveness - config.min_attractiveness) / (
             config.max_attractiveness - config.min_attractiveness)) * 5
 
-    def hipothetical_environmental_satisfaction(self, province):
+    def hypothetical_environmental_satisfaction(self, province):
         # house_price_per_province[self.living_place]
         attractiveness = province.density / cuban_density
         if attractiveness <= config.min_attractiveness:
