@@ -1,6 +1,6 @@
 __author__ = 'mario'
 
-from . import initial_population
+from .   import initial_population
 
 def check_affected(agent):
     pass
