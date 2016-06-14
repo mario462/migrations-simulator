@@ -7,3 +7,5 @@ min_salary = 310
 max_salary = 1000
 min_peers = 1
 max_peers = 10
+min_attractiveness = 0.4
+max_attractiveness = 10

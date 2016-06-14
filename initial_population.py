@@ -1,6 +1,5 @@
 __author__ = 'laila'
 
-
 import numpy
 import numpy.random as random
 import config
@@ -13,6 +12,7 @@ provinces = list(salary_per_province.keys())
 population_per_province = {p: value['Total'] for (p, value) in living_place_per_province.items() if p in provinces}
 unemployment_per_province = json.load(open('data/parsed_unemployment'))
 housing_per_province = json.load(open('data/parsed_housing'))
+density_per_province = json.load(open('data/parsed_density'))
 
 
 class Agent:
@@ -46,9 +46,12 @@ class Agent:
         return 'La Habana'
 
     def satisfaction(self):
-        socw = 0.5
-        ecow = 1 - socw
-        return socw*self.social_satisfaction() + ecow*self.economic_satisfaction()
+        social_weight = 0.4
+        economical_weight = 0.4
+        environmental_weight = 1 - social_weight - economical_weight
+        return social_weight * self.social_satisfaction() \
+            + economical_weight * self.economical_satisfaction() \
+            + environmental_weight * self.environmental_satisfaction()
 
     def social_satisfaction(self):
         peers_in_province = len([p for p in self.peers if p.living_place == self.living_place])
@@ -58,7 +61,7 @@ class Agent:
             return 5
         return ((peers_in_province - config.min_peers) / (config.max_peers - config.min_peers)) * 5
 
-    def economic_satisfaction(self):
+    def economical_satisfaction(self):
         res = random.uniform(0, 0.5) if self.unemployment else random.uniform(0.5, 1)
         res += random.uniform(0, 0.5) if self.housing else random.uniform(0.5, 1)
         if self.salary <= config.min_salary:
@@ -66,6 +69,16 @@ class Agent:
         if self.salary >= config.max_salary:
             return res + 3
         return ((self.salary - config.min_salary) / (config.max_salary - config.min_salary)) * 5
+
+    def environmental_satisfaction(self):
+        # house_price_per_province[self.living_place]
+        attractiveness = density_per_province[self.living_place] / density_per_province['Total']
+        if attractiveness <= config.min_attractiveness:
+            return 0
+        if attractiveness >= config.max_attractiveness:
+            return 5
+        return ((attractiveness - config.min_attractiveness) / (
+            config.max_attractiveness - config.min_attractiveness)) * 5
 
 
 def initialize_connections(agents):
@@ -111,13 +124,13 @@ def define_unemployment(p):
 
 
 def define_housing(p):
-    return random.uniform(0, population_per_province[p]) < 2*housing_per_province[p]
+    return random.uniform(0, population_per_province[p]) < 2 * housing_per_province[p]
 
 
 # region Comments
 # def define_gender(province, gender_per_province):
-#     women_percent = gender_per_province[province]
-#     r = random.uniform(0, 100)
+# women_percent = gender_per_province[province]
+# r = random.uniform(0, 100)
 #     return 'female' if r < women_percent else 'male'
 
 
