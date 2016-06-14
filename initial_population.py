@@ -238,46 +238,5 @@ def define_housing(province):
     return random.uniform(0, province.population) < 2 * province.housing
 
 
-# region Comments
-# def define_gender(province, gender_per_province):
-# women_percent = gender_per_province[province]
-# r = random.uniform(0, 100)
-# return 'female' if r < women_percent else 'male'
-
-
-# def define_age_group(province):
-# r = random.uniform(0, 100)
-#     sum = 0
-#     j = 0
-#     for i in age_group_per_province[province]:
-#         sum += i
-#         j += 1
-#         if r <= sum:
-#             return j*10
-
-
-# def import_data():
-#     provinces = []
-#     population_per_province = {}
-#     gender_per_province = {}
-#     f = open('population.txt')
-#     p = f.readline().replace('\n','')
-#     while p:
-#         provinces.append(p)
-#         population = int(f.readline().replace('\n','').replace(' ', ''))
-#         population_per_province[p] = population
-#         male = int(f.readline().replace('\n','').replace(' ', ''))
-#         gender_per_province[p] = (population-male)/population
-#         f.readline()
-#         p = f.readline().replace('\n','')
-#         print(p)
-#     return provinces, population_per_province, gender_per_province
-
-# age_group_per_province = {'La Habana': [12,8,13,7,10,11,9,10]}
-# marital_status = {'La Habana': []}
-
-#endregion
-
-
 if __name__ == '__main__':
     pass
