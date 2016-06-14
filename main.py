@@ -13,7 +13,7 @@ class Simulation:
     def print_satisfactions(self):
         for v in self.agents:
             for a in self.agents[v]:
-                print(a.satisfaction())
+                a.satisfaction()
 
 if __name__ == '__main__':
     sim = Simulation()
