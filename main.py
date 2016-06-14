@@ -31,10 +31,4 @@ class Simulation:
 if __name__ == '__main__':
     sim = Simulation()
     sim.initialize()
-    sim.print_satisfactions()
-    # year = 2016
-    # while year < 2050:
-    #     year += 1
-    #     for agent in agents:
-    #         if agent.update_interval_done():
-    #             agent.migration_decision()
+    sim.simulate()
