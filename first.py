@@ -16,16 +16,35 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.colorEarth = '#009900'
         self.colorWater = '#27b6e9'
 
-        self.cubaMapBtn.clicked.connect(self.mapa_cuba)
-        self.worldMapBtn.clicked.connect(self.mapa_mundi)
-        self.load_provincias()
+        self.load_provinces()
         self.load_countries()
 
         self.comboBoxProv.addItems([x for x in self.prov.keys()])
 
-    def on_show_map_btn_clicked(self):
-        # self.mapa_mundi()
-        self.mapa_cuba()
+        #region Buttons
+        self.worldMapBtn.clicked.connect(self.mapa_mundi)
+        self.cubaMapBtn.clicked.connect(self.mapa_cuba)
+        self.initialPopulationBtn.clicked.connect(self.on_initial_population_clicked)
+        self.nextStepBtn.clicked.connect(self.on_next_step_clicked)
+        self.simBtn.clicked.connect(self.on_sim_clicked)
+        self.stopBtn.clicked.connect(self.on_stop_clicked)
+        self.migrateFromBtn.clicked.connect(self.on_migrate_from_clicked)
+        #endregion
+
+    def on_migrate_from_clicked(self):
+        pass
+
+    def on_stop_clicked(self):
+        pass
+
+    def on_sim_clicked(self):
+        pass
+
+    def on_initial_population_clicked(self):
+
+
+    def on_next_step_clicked(self):
+        pass
 
     def mapa_mundi(self):
         plt.close()
@@ -73,17 +92,23 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
 
         plt.show()
 
-    def load_provincias(self):
-        s = "Core" + os.sep + "provincias"
-        d = open(s, 'r')
-        self.prov = json.loads(d.read())
-        print("load_prov")
-
     def load_countries(self):
         s = "Core" + os.sep + "paises"
         d = open(s, 'r')
         self.countries = json.loads(d.read())
         print("load_countries")
+
+    def load_provinces(self):
+        s = "Core" + os.sep + "provincias"
+        d = open(s, 'r')
+        self.prov = json.loads(d.read())
+        print("load_prov")
+
+class Aux:
+    def __init__(self):
+        pass
+
+    def initial_population(self):
 
 
 if __name__ == '__main__':
