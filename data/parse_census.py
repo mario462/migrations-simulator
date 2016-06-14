@@ -10,7 +10,7 @@ order = ['Total', 'Pinar del Río', 'Artemisa', 'La Habana', 'Mayabeque', 'Matanz
 
 mapping = {}
 
-f = open('censo', 'r', encoding='latin-1')
+f = open('data/censo', 'r', encoding='latin-1')
 lines = f.readlines()
 i = 0
 while i < len(lines) - 17:
@@ -20,9 +20,7 @@ while i < len(lines) - 17:
         for j in range(1, 18):
             value = lines[i + j].replace(' ', '').replace('\n','')
             other = order[j-1]
-            mapping[key][other] = value
+            mapping[key][other] = int(value)
     i += 18
-dumped = json.dumps(mapping, sort_keys=True, indent=4, ensure_ascii=False)
-pprint.pprint(dumped)
-g = open('parsed', 'wt')
-g.write(dumped)
+g = open('data/parsed_living_places', 'wt')
+dumped = json.dump(mapping, g, sort_keys=True, indent=4, ensure_ascii=False)
