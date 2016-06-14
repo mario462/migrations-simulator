@@ -1,0 +1,15 @@
+Provincias	2011	2012	2013	2014    				
+
+Pinar del Río	450	471	480	601
+La Habana	456	467	484	595
+Matanzas	468	483	484	607
+Villa Clara	456	466	476	603
+Cienfuegos	470	474	480	609
+Sancti Spíritus	470	477	487	614
+Ciego de Ávila	510	515	520	645
+Camagüey	462	456	465	566
+Las Tunas	439	456	463	584
+Holguín	455	462	471	575
+Granma	449	460	470	565
+Santiago de Cuba	436	433	443	540
+Guantánamo	431	434	442	548
