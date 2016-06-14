@@ -1,6 +1,5 @@
 __author__ = 'laila'
 
-
 import numpy.random as random
 import config
 import json
@@ -40,6 +39,7 @@ class Agent:
     def choose_migration_province(self):
         return 'La Habana'
 
+
 def initialize_connections(agents):
     for a in agents:
         number_of_peers = int(random.normal(config.peers_per_agent, 2))
@@ -70,13 +70,14 @@ def define_living_place(province):
         if i:
             return provinces[i]
 
+
 def define_salary(province):
     return random.normal(salary_per_province[province], 100)
 
 
 # region Comments
 # def define_gender(province, gender_per_province):
-#     women_percent = gender_per_province[province]
+# women_percent = gender_per_province[province]
 #     r = random.uniform(0, 100)
 #     return 'female' if r < women_percent else 'male'
 
