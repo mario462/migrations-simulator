@@ -53,7 +53,20 @@ class Agent:
             else:
                 return False, None
         else:
-            return True, 'La Habana'
+            max_sat, province = 0, None
+            for p in provinces:
+                if p != self.living_place:
+                    sat = (self.hipothetical_social_satisfaction(p) - self.social_satisfaction()) * config.social_weight \
+                          + (self.hipothetical_economical_satisfaction(p) - self.economical_satisfaction()) * config.economical_weight \
+                          + (self.hipothetical_environmental_satisfaction(p) - self.environmental_satisfaction()) * config.environmental_weight
+                    total_sat = self.update_ratio * sat
+                    if total_sat > max_sat:
+                        max_sat = total_sat
+                        province = p
+            if max_sat > config.migration_treshold:
+                return True, province
+            else:
+                return False, None
 
     def sociable(self):
         if self.sociability == 1:
