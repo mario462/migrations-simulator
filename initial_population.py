@@ -29,11 +29,26 @@ class Agent:
         return self.province + " " + self.living_place
 
     def migration_decision(self):
-        if random.random() > 0.5:
-            p = self.choose_migration_province()
-            self.migrate(p)
-            return True
+        if self.should_migrate():
+            if self.sociable():
+
+                p = self.choose_migration_province()
+                self.migrate(p)
+                return True
+            else:
+                return True
         return False
+
+    def should_migrate(self):
+        return True
+
+    def sociable(self):
+        if self.sociability == 1:
+            return True
+        elif self.sociability == 0:
+            return False
+        treshold = random.normal(0.5, 0.2)
+        return True if self.sociability >= treshold else False
 
     def update_interval_done(self):
         return False
