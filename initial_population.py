@@ -2,8 +2,8 @@ __author__ = 'laila'
 
 
 import numpy.random as random
-from . import config
 import json
+import config
 
 
 def import_data():
@@ -72,7 +72,7 @@ def initialize_population():
     agents = {}
     for p in provinces:
         agents[p] = []
-        for i in range(population_per_province[p] / config.people_per_agent):
+        for i in range(int(population_per_province[p] / config.people_per_agent)):
             # a = define_age_group(p)
             # g = define_gender(p, gender_per_province)
             l = define_living_place(p.capitalize())
@@ -85,14 +85,12 @@ def initialize_population():
 
 def define_living_place(province):
     distribution = living_place_per_province[province]
-    r = random.uniform(0, sum(distribution.values) + 1)
-    total = 0
-    for p in distribution:
-        total += int(distribution[p])
-        if r <= total:
-            return p
-    return province
-
+    total = sum(distribution.values())
+    probabilites = [x / total for x in distribution.values()]
+    selection = random.multinomial(1, probabilites)
+    for i in range(len(selection)):
+        if selection[i] == 1:
+            return distribution.keys()[i]
 
 def define_salary(province):
     return random.normal(salary_per_province[province], 80)
@@ -106,6 +104,7 @@ def simulate(years):
                 a.migration_decision()
         years -= 1
 
+simulate(50)
 
 # def define_gender(province, gender_per_province):
 #     women_percent = gender_per_province[province]
