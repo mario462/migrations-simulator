@@ -39,8 +39,17 @@ def move_to_new_district(agent):
     pass
 
 
+class Simulation:
+    def __init__(self):
+        self.agents = []
+
+    def initialize(self):
+        self.agents = initial_population.initialize_population()
+
 if __name__ == '__main__':
-    agents = initial_population.initialize_population()
+    sim = Simulation()
+    sim.initialize()
+    print()
     # year = 2016
     # while year < 2050:
     #     year += 1

@@ -14,7 +14,7 @@
         "Mayabeque": 376825,
         "Pinar del Río": 587026,
         "Sancti Spíritus": 463458,
-        "Santiago": 1049084,
+        "Santiago de Cuba": 1049084,
         "Total": 11167325,
         "Villa Clara": 791216
     },
@@ -33,11 +33,11 @@
         "Mayabeque": 2777,
         "Pinar del Río": 5096,
         "Sancti Spíritus": 313,
-        "Santiago": 168,
+        "Santiago de Cuba": 168,
         "Total": 462786,
         "Villa Clara": 339
     },
-    "CamagÃ¼ey": {
+    "Camagüey": {
         "Artemisa": 1991,
         "Camagüey": 664533,
         "Ciego de Ávila": 10258,
@@ -52,11 +52,11 @@
         "Mayabeque": 2469,
         "Pinar del Río": 522,
         "Sancti Spíritus": 3456,
-        "Santiago": 1412,
+        "Santiago de Cuba": 1412,
         "Total": 734504,
         "Villa Clara": 2822
     },
-    "Ciego de Ãvila": {
+    "Ciego de Ávila": {
         "Artemisa": 793,
         "Camagüey": 7229,
         "Ciego de Ávila": 361650,
@@ -71,7 +71,7 @@
         "Mayabeque": 1027,
         "Pinar del Río": 176,
         "Sancti Spíritus": 5282,
-        "Santiago": 410,
+        "Santiago de Cuba": 410,
         "Total": 398043,
         "Villa Clara": 2344
     },
@@ -90,7 +90,7 @@
         "Mayabeque": 966,
         "Pinar del Río": 247,
         "Sancti Spíritus": 2250,
-        "Santiago": 151,
+        "Santiago de Cuba": 151,
         "Total": 415813,
         "Villa Clara": 8415
     },
@@ -109,7 +109,7 @@
         "Mayabeque": 67,
         "Pinar del Río": 37,
         "Sancti Spíritus": 150,
-        "Santiago": 81,
+        "Santiago de Cuba": 81,
         "Total": 6009,
         "Villa Clara": 281
     },
@@ -128,11 +128,11 @@
         "Mayabeque": 13513,
         "Pinar del Río": 1164,
         "Sancti Spíritus": 3839,
-        "Santiago": 8757,
+        "Santiago de Cuba": 8757,
         "Total": 964725,
         "Villa Clara": 2464
     },
-    "GuantÃ¡namo": {
+    "Guantánamo": {
         "Artemisa": 5434,
         "Camagüey": 11752,
         "Ciego de Ávila": 6562,
@@ -147,11 +147,11 @@
         "Mayabeque": 7832,
         "Pinar del Río": 778,
         "Sancti Spíritus": 2785,
-        "Santiago": 12711,
+        "Santiago de Cuba": 12711,
         "Total": 633597,
         "Villa Clara": 1345
     },
-    "HolguÃ­n": {
+    "Holguín": {
         "Artemisa": 6093,
         "Camagüey": 17598,
         "Ciego de Ávila": 10560,
@@ -166,7 +166,7 @@
         "Mayabeque": 6995,
         "Pinar del Río": 990,
         "Sancti Spíritus": 6361,
-        "Santiago": 9603,
+        "Santiago de Cuba": 9603,
         "Total": 1140749,
         "Villa Clara": 2714
     },
@@ -185,7 +185,7 @@
         "Mayabeque": 458,
         "Pinar del Río": 252,
         "Sancti Spíritus": 124,
-        "Santiago": 108,
+        "Santiago de Cuba": 108,
         "Total": 54111,
         "Villa Clara": 177
     },
@@ -204,7 +204,7 @@
         "Mayabeque": 11147,
         "Pinar del Río": 3438,
         "Sancti Spíritus": 2041,
-        "Santiago": 2027,
+        "Santiago de Cuba": 2027,
         "Total": 1639461,
         "Villa Clara": 3414
     },
@@ -223,7 +223,7 @@
         "Mayabeque": 2396,
         "Pinar del Río": 419,
         "Sancti Spíritus": 1298,
-        "Santiago": 1376,
+        "Santiago de Cuba": 1376,
         "Total": 579958,
         "Villa Clara": 1150
     },
@@ -242,7 +242,7 @@
         "Mayabeque": 3761,
         "Pinar del Río": 518,
         "Sancti Spíritus": 840,
-        "Santiago": 323,
+        "Santiago de Cuba": 323,
         "Total": 662631,
         "Villa Clara": 2552
     },
@@ -261,11 +261,11 @@
         "Mayabeque": 308928,
         "Pinar del Río": 243,
         "Sancti Spíritus": 208,
-        "Santiago": 107,
+        "Santiago de Cuba": 107,
         "Total": 338160,
         "Villa Clara": 253
     },
-    "POBLACIÃN NATIVA": {
+    "POBLACIÓN NATIVA": {
         "Artemisa": 494581,
         "Camagüey": 771400,
         "Ciego de Ávila": 425892,
@@ -280,11 +280,11 @@
         "Mayabeque": 376758,
         "Pinar del Río": 586989,
         "Sancti Spíritus": 463308,
-        "Santiago": 1049003,
+        "Santiago de Cuba": 1049003,
         "Total": 11161316,
         "Villa Clara": 790935
     },
-    "Pinar del RÃ­o": {
+    "Pinar del Río": {
         "Artemisa": 14592,
         "Camagüey": 571,
         "Ciego de Ávila": 374,
@@ -299,11 +299,11 @@
         "Mayabeque": 2502,
         "Pinar del Río": 570863,
         "Sancti Spíritus": 569,
-        "Santiago": 185,
+        "Santiago de Cuba": 185,
         "Total": 633145,
         "Villa Clara": 529
     },
-    "Sancti SpÃ­ritus": {
+    "Sancti Spíritus": {
         "Artemisa": 1548,
         "Camagüey": 2919,
         "Ciego de Ávila": 7834,
@@ -318,7 +318,7 @@
         "Mayabeque": 1277,
         "Pinar del Río": 653,
         "Sancti Spíritus": 417892,
-        "Santiago": 188,
+        "Santiago de Cuba": 188,
         "Total": 470182,
         "Villa Clara": 12924
     },
@@ -337,7 +337,7 @@
         "Mayabeque": 8246,
         "Pinar del Río": 879,
         "Sancti Spíritus": 1903,
-        "Santiago": 1011025,
+        "Santiago de Cuba": 1011025,
         "Total": 1189897,
         "Villa Clara": 2230
     },
@@ -356,7 +356,7 @@
         "Mayabeque": 2464,
         "Pinar del Río": 751,
         "Sancti Spíritus": 14147,
-        "Santiago": 452,
+        "Santiago de Cuba": 452,
         "Total": 843554,
         "Villa Clara": 747263
     }
