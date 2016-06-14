@@ -8,7 +8,7 @@ class Simulation:
         self.agents = []
 
     def initialize(self):
-        initial_population.initialize_provinces()
+        self.provinces = initial_population.initialize_provinces()
         self.agents = initial_population.initialize_population()
 
     def simulate(self):
