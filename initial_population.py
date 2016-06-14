@@ -72,7 +72,7 @@ class Agent:
         treshold = random.normal(0.5, 0.1)
         return True if self.sociability >= treshold else False
 
- p    def migrate(self, province):
+    def migrate(self, province):
         self.living_place = province
 
     def update_needed(self):
