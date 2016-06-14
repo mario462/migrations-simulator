@@ -3,42 +3,6 @@ __author__ = 'mario'
 import initial_population
 
 
-def check_affected(agent):
-    pass
-
-
-def measure_push(agent):
-    pass
-
-
-def measure_intervening(agent):
-    pass
-
-
-def measure_pull(agent):
-    pass
-
-
-def migrate(push, intervening, pull):
-    pass
-
-
-def find_best_destination(agent):
-    pass
-
-
-def update_destination(agent):
-    pass
-
-
-def update_attributes(agent):
-    pass
-
-
-def move_to_new_district(agent):
-    pass
-
-
 class Simulation:
     def __init__(self):
         self.agents = []
