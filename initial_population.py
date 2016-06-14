@@ -1,6 +1,7 @@
 __author__ = 'laila'
 
 
+import numpy
 import numpy.random as random
 import config
 import json
@@ -51,7 +52,7 @@ def initialize_population():
     agents = {}
     for p in provinces:
         agents[p] = []
-        for i in range(population_per_province[p] / config.people_per_agent):
+        for i in range(int(numpy.ceil(population_per_province[p] / config.people_per_agent))):
             # a = define_age_group(p)
             # g = define_gender(p, gender_per_province)
             l = define_living_place(p.capitalize())
