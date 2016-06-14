@@ -259,6 +259,7 @@ def define_housing(province):
     return random.uniform(0, province.population) < 2 * province.housing
 
 
+<<<<<<< HEAD
 # region Comments
 # def define_gender(province, gender_per_province):
 # women_percent = gender_per_province[province]
@@ -300,5 +301,7 @@ def define_housing(province):
 #endregion
 
 
+=======
+>>>>>>> a13509d... Comments removed
 if __name__ == '__main__':
     pass
