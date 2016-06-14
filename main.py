@@ -8,12 +8,13 @@ class Simulation:
         self.agents = []
 
     def initialize(self):
+        initial_population.initialize_provinces()
         self.agents = initial_population.initialize_population()
 
     def print_satisfactions(self):
         for v in self.agents:
             for a in self.agents[v]:
-                a.satisfaction()
+                a.evolve()
 
 if __name__ == '__main__':
     sim = Simulation()
