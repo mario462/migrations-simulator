@@ -2,31 +2,14 @@ __author__ = 'laila'
 
 
 import numpy.random as random
-from . import config
+import config
 import json
 
 
-def import_data():
-    provinces = []
-    population_per_province = {}
-    gender_per_province = {}
-    f = open('population_per_province.txt')
-    p = f.readline().replace('\n','')
-    while p:
-        provinces.append(p)
-        population = int(f.readline().replace('\n','').replace(' ', ''))
-        population_per_province[p] = population
-        male = int(f.readline().replace('\n','').replace(' ', ''))
-        gender_per_province[p] = (population-male)/population
-        f.readline()
-        p = f.readline().replace('\n','')
-        print(p)
-    return provinces, population_per_province, gender_per_province
-
-# age_group_per_province = {'La Habana': [12,8,13,7,10,11,9,10]}
-# marital_status = {'La Habana': []}
-living_place_per_province = json.load(open('parsed_migrations'))
-salary_per_province = json.load(open('parsed_salaries'))
+living_place_per_province = json.load(open('data/parsed_living_places'))
+salary_per_province = json.load(open('data/parsed_salaries'))
+provinces = salary_per_province.keys()
+population_per_province = { p:value['Total'] for (p,value) in living_place_per_province.items() if p in provinces }
 
 
 class Agent:
@@ -65,7 +48,6 @@ def initialize_connections(agents):
 
 
 def initialize_population():
-    provinces, population_per_province, gender_per_province = import_data()
     agents = {}
     for p in provinces:
         agents[p] = []
@@ -92,16 +74,7 @@ def define_living_place(province):
 
 
 def define_salary(province):
-    return random.normal(salary_per_province[province], 80)
-
-
-def simulate(years):
-    agents = initialize_population()
-    while years > 0:
-        for a in agents:
-            if a.update_interval_done():
-                a.migration_decision()
-        years -= 1
+    return random.normal(salary_per_province[province], 100)
 
 
 # def define_gender(province, gender_per_province):
@@ -119,3 +92,28 @@ def simulate(years):
 #         j += 1
 #         if r <= sum:
 #             return j*10
+
+
+# def import_data():
+#     provinces = []
+#     population_per_province = {}
+#     gender_per_province = {}
+#     f = open('population_per_province.txt')
+#     p = f.readline().replace('\n','')
+#     while p:
+#         provinces.append(p)
+#         population = int(f.readline().replace('\n','').replace(' ', ''))
+#         population_per_province[p] = population
+#         male = int(f.readline().replace('\n','').replace(' ', ''))
+#         gender_per_province[p] = (population-male)/population
+#         f.readline()
+#         p = f.readline().replace('\n','')
+#         print(p)
+#     return provinces, population_per_province, gender_per_province
+
+# age_group_per_province = {'La Habana': [12,8,13,7,10,11,9,10]}
+# marital_status = {'La Habana': []}
+
+
+if __name__ == '__main__':
+    pass
