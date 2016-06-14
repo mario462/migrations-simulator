@@ -11,10 +11,9 @@ class Simulation:
         initial_population.initialize_provinces()
         self.agents = initial_population.initialize_population()
 
-    def print_satisfactions(self):
-        for v in self.agents:
-            for a in self.agents[v]:
-                a.evolve()
+    def simulate(self):
+        for a in self.agents:
+            a.evolve()
 
 if __name__ == '__main__':
     sim = Simulation()
