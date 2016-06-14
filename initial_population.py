@@ -38,8 +38,8 @@ class Agent:
             max_sat, province = 0, None
             for p in self.peers:
                 sat = (p.social_satisfaction() - self.social_satisfaction()) * config.social_weight \
-                + (p.economical_satisfaction() - self.economical_satisfaction()) * config.economical_weight \
-                + (p.environmental_satisfaction() - self.environmental_satisfaction()) * config.environmental_weight
+                      + (p.economical_satisfaction() - self.economical_satisfaction()) * config.economical_weight \
+                      + (p.environmental_satisfaction() - self.environmental_satisfaction()) * config.environmental_weight
                 total_sat = self.update_ratio * self.sociability * sat
                 if total_sat > max_sat:
                     max_sat = total_sat
@@ -49,7 +49,20 @@ class Agent:
             else:
                 return False, None
         else:
-            return True, 'La Habana'
+            max_sat, province = 0, None
+            for p in provinces:
+                if p != self.living_place:
+                    sat = (self.hipothetical_social_satisfaction(p) - self.social_satisfaction()) * config.social_weight \
+                          + (self.hipothetical_economical_satisfaction(p) - self.economical_satisfaction()) * config.economical_weight \
+                          + (self.hipothetical_environmental_satisfaction(p) - self.environmental_satisfaction()) * config.environmental_weight
+                    total_sat = self.update_ratio * sat
+                    if total_sat > max_sat:
+                        max_sat = total_sat
+                        province = p
+            if max_sat > config.migration_treshold:
+                return True, province
+            else:
+                return False, None
 
     def sociable(self):
         if self.sociability == 1:
@@ -61,9 +74,6 @@ class Agent:
 
  p    def migrate(self, province):
         self.living_place = province
-
-    def choose_migration_province(self):
-        return 'La Habana'
 
     def update_needed(self):
         return random.uniform() < self.update_ratio
@@ -95,6 +105,14 @@ class Agent:
             return 5
         return ((peers_in_province - config.min_peers) / (config.max_peers - config.min_peers)) * 5
 
+    def hipothetical_social_satisfaction(self, province):
+        peers_in_province = len(list(filter(lambda x: x.living_place == province.name, self.peers)))
+        if peers_in_province <= config.min_peers:
+            return 0
+        if peers_in_province >= config.max_peers:
+            return 5
+        return ((peers_in_province - config.min_peers) / (config.max_peers - config.min_peers)) * 5
+
     def economical_satisfaction(self):
         res = random.uniform(0, 0.5) if self.unemployment else random.uniform(0.5, 1)
         res += random.uniform(0, 0.5) if self.housing else random.uniform(0.5, 1)
@@ -102,11 +120,31 @@ class Agent:
             return res
         if self.salary >= config.max_salary:
             return res + 3
-        return ((self.salary - config.min_salary) / (config.max_salary - config.min_salary)) * 5
+        return ((self.salary - config.min_salary) / (config.max_salary - config.min_salary)) * 3 + res
+
+    def hipothetical_economical_satisfaction(self, province):
+        res = random.uniform(0, 0.5) if define_unemployment(province) else random.uniform(0.5, 1)
+        res += random.uniform(0, 0.5) if define_housing(province) else random.uniform(0.5, 1)
+        salary = define_salary(province)
+        if salary <= config.min_salary:
+            return res
+        if salary >= config.max_salary:
+            return res + 3
+        return ((salary - config.min_salary) / (config.max_salary - config.min_salary)) * 3 + res
 
     def environmental_satisfaction(self):
         # house_price_per_province[self.living_place]
         attractiveness = self.living_place.density / cuban_density
+        if attractiveness <= config.min_attractiveness:
+            return 0
+        if attractiveness >= config.max_attractiveness:
+            return 5
+        return ((attractiveness - config.min_attractiveness) / (
+            config.max_attractiveness - config.min_attractiveness)) * 5
+
+    def hipothetical_environmental_satisfaction(self, province):
+        # house_price_per_province[self.living_place]
+        attractiveness = province.density / cuban_density
         if attractiveness <= config.min_attractiveness:
             return 0
         if attractiveness >= config.max_attractiveness:
