@@ -29,9 +29,10 @@ class Agent:
     def migration_decision(self):
         should, province = self.should_migrate(self.sociable())
         if should:
+            old_province = self.living_place
             self.migrate(province)
-            return True
-        return False
+            return True, old_province, province
+        return False, None, None
 
     def should_migrate(self, sociable):
         if sociable:
