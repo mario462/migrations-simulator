@@ -52,9 +52,9 @@ class Agent:
             max_sat, province = 0, None
             for p in provinces:
                 if p != self.living_place:
-                    sat = (self.hipothetical_social_satisfaction(p) - self.social_satisfaction()) * config.social_weight \
-                          + (self.hipothetical_economical_satisfaction(p) - self.economical_satisfaction()) * config.economical_weight \
-                          + (self.hipothetical_environmental_satisfaction(p) - self.environmental_satisfaction()) * config.environmental_weight
+                    sat = (self.hypothetical_social_satisfaction(p) - self.social_satisfaction()) * config.social_weight \
+                          + (self.hypothetical_economical_satisfaction(p) - self.economical_satisfaction()) * config.economical_weight \
+                          + (self.hypothetical_environmental_satisfaction(p) - self.environmental_satisfaction()) * config.environmental_weight
                     total_sat = self.update_ratio * sat
                     if total_sat > max_sat:
                         max_sat = total_sat
@@ -73,7 +73,25 @@ class Agent:
         return True if self.sociability >= treshold else False
 
     def migrate(self, province):
+        old_province = self.living_place
+        old_province.population -= config.people_per_agent
+        old_province.density = old_province.population / old_province.extension
+
+        new_province = province
+        new_province.population += config.people_per_agent
+        new_province.density = new_province.population / new_province.extension
+
+        original_province = self.province
+        original_province.living_places[old_province.name] -= config.people_per_agent
+        original_province.living_places[new_province.name] -= config.people_per_agent
+
         self.living_place = province
+
+        self.salary = define_salary(province)
+        self.housing = define_housing(province)
+        self.unemployment = define_unemployment(province)
+
+        self.update_ratio = 1
 
     def update_needed(self):
         return random.uniform() < self.update_ratio
@@ -105,7 +123,7 @@ class Agent:
             return 5
         return ((peers_in_province - config.min_peers) / (config.max_peers - config.min_peers)) * 5
 
-    def hipothetical_social_satisfaction(self, province):
+    def hypothetical_social_satisfaction(self, province):
         peers_in_province = len(list(filter(lambda x: x.living_place == province.name, self.peers)))
         if peers_in_province <= config.min_peers:
             return 0
@@ -122,7 +140,7 @@ class Agent:
             return res + 3
         return ((self.salary - config.min_salary) / (config.max_salary - config.min_salary)) * 3 + res
 
-    def hipothetical_economical_satisfaction(self, province):
+    def hypothetical_economical_satisfaction(self, province):
         res = random.uniform(0, 0.5) if define_unemployment(province) else random.uniform(0.5, 1)
         res += random.uniform(0, 0.5) if define_housing(province) else random.uniform(0.5, 1)
         salary = define_salary(province)
@@ -142,7 +160,7 @@ class Agent:
         return ((attractiveness - config.min_attractiveness) / (
             config.max_attractiveness - config.min_attractiveness)) * 5
 
-    def hipothetical_environmental_satisfaction(self, province):
+    def hypothetical_environmental_satisfaction(self, province):
         # house_price_per_province[self.living_place]
         attractiveness = province.density / cuban_density
         if attractiveness <= config.min_attractiveness:
@@ -160,13 +178,14 @@ class Agent:
 
 
 class Province:
-    def __init__(self, name, salary, unemployment, housing, density, population, living_places):
+    def __init__(self, name, salary, unemployment, housing, density, population, extension, living_places):
         self.name = name
         self.salary = salary
         self.unemployment = unemployment
         self.housing = housing
         self.density = density
         self.population = population
+        self.extension = extension
         self.living_places = living_places
 
     def __str__(self):
@@ -198,12 +217,14 @@ def initialize_provinces():
     housing_per_province = json.load(open('data/parsed_housing'))
     density_per_province = json.load(open('data/parsed_density'))
     population_per_province = json.load(open('data/parsed_population'))
+    extension_per_province = json.load(open('data/parsed_extension'))
     global province_names
     province_names = list(salary_per_province.keys())
     for p in province_names:
         provinces.append(Province(name=p, salary=salary_per_province[p], unemployment=unemployment_per_province[p],
                              housing=housing_per_province[p], density=density_per_province[p],
-                             population=population_per_province[p], living_places=living_places_per_province[p]))
+                             population=population_per_province[p], extension=extension_per_province[p],
+                             living_places=living_places_per_province[p]))
     return provinces
 
 
@@ -260,7 +281,7 @@ def define_housing(province):
 #     provinces = []
 #     population_per_province = {}
 #     gender_per_province = {}
-#     f = open('population.txt')
+#     f = open('raw_population.txt')
 #     p = f.readline().replace('\n','')
 #     while p:
 #         provinces.append(p)
