@@ -16,7 +16,8 @@ density_per_province = json.load(open('data/parsed_density'))
 
 
 class Agent:
-    def __init__(self, province, living_place, salary, unemployment, housing, peers=[]):
+    def __init__(self, sociability, province, living_place, salary, unemployment, housing, peers=[]):
+        self.sociability = sociability
         self.province = province
         self.peers = peers
         self.living_place = living_place
@@ -109,13 +110,12 @@ def initialize_population():
     for p in provinces:
         agents[p] = []
         for i in range(int(numpy.ceil(population_per_province[p] / config.people_per_agent))):
-            # a = define_age_group(p)
-            # g = define_gender(p, gender_per_province)
             l = define_living_place(p)
             s = define_salary(p)
             u = define_unemployment(p)
             h = define_housing(p)
-            agents[p].append(Agent(province=p, salary=s, living_place=l, unemployment=u, housing=h))
+            b = define_sociability()
+            agents[p].append(Agent(sociability=b, province=p, salary=s, living_place=l, unemployment=u, housing=h))
 
     initialize_connections(agents)
     return agents
@@ -130,6 +130,13 @@ def define_living_place(province):
         if selection[i]:
             return provinces[i]
 
+def define_sociability():
+    value = random.uniform(0, 1)
+    if value <= 0.2:
+        value = 0
+    elif value >= 0.8:
+        value = 1
+    return value
 
 def define_salary(province):
     return random.normal(salary_per_province[province], 100)
