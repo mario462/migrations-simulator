@@ -12,15 +12,15 @@ cuban_density = 101.6
 
 
 class Agent:
-    def __init__(self, sociability, province, living_place, salary, unemployment, housing, peers=[]):
-        self.sociability = sociability
+    def __init__(self, province):
         self.province = province
-        self.peers = peers
-        self.living_place = living_place
-        self.salary = salary
-        self.unemployment = unemployment
-        self.housing = housing
-        self.update_ratio = 0.9
+        self.peers = []
+        self.sociability = define_sociability()
+        self.living_place = define_living_place(province)
+        self.salary = define_salary(province)
+        self.unemployment = define_unemployment(province)
+        self.housing = define_housing(province)
+        self.update_ratio = 1
         self.satisfaction = -1
 
     def __str__(self):
@@ -56,7 +56,7 @@ class Agent:
             return True
         elif self.sociability == 0:
             return False
-        treshold = random.normal(0.5, 0.2)
+        treshold = random.normal(0.5, 0.1)
         return True if self.sociability >= treshold else False
 
     def migrate(self, province):
@@ -140,12 +140,7 @@ def initialize_population():
     for p in provinces:
         agents[p.name] = []
         for i in range(int(numpy.ceil(p.population / config.people_per_agent))):
-            l = define_living_place(p)
-            s = define_salary(p)
-            u = define_unemployment(p)
-            h = define_housing(p)
-            b = define_sociability()
-            agents[p.name].append(Agent(sociability=b, province=p, salary=s, living_place=l, unemployment=u, housing=h))
+            agents[p.name].append(Agent(province=p))
 
     initialize_connections(agents)
     return agents
