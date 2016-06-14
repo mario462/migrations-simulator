@@ -17,15 +17,14 @@ housing_per_province = json.load(open('data/parsed_housing'))
 
 class Agent:
     def __init__(self, province, living_place, salary, unemployment, housing, peers=[]):
-
         # self.age_group = age_group
         # self.gender = gender
-        self.province = province
+        # self.marital_status = marital_status        self.province = province
         self.peers = peers
         self.living_place = living_place
         self.unemployment = unemployment
         self.housing = housing
-        # self.marital_status = marital_status
+
 
     def __str__(self):
         return self.province + " " + str(self.age_group) + " " + self.gender + " " + self.living_place
@@ -75,7 +74,6 @@ def define_living_place(province):
     distribution = living_place_per_province[province]
     total = distribution['Total']
     probabilities = [distribution[x] / total for x in provinces]
-
     selection = random.multinomial(1, probabilities)
     for i in range(len(selection)):
         if selection[i]:
