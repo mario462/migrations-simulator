@@ -27,11 +27,37 @@ class Agent:
         return self.province + " " + self.living_place
 
     def migration_decision(self):
-        if random.random() > 0.5:
-            p = self.choose_migration_province()
-            self.migrate(p)
+        should, province = self.should_migrate(self.sociable())
+        if should:
+            self.migrate(province)
             return True
         return False
+
+    def should_migrate(self, sociable):
+        if sociable:
+            max_sat, province = 0, None
+            for p in self.peers:
+                sat = (p.social_satisfaction() - self.social_satisfaction()) * config.social_weight \
+                + (p.economical_satisfaction() - self.economical_satisfaction()) * config.economical_weight \
+                + (p.environmental_satisfaction() - self.environmental_satisfaction()) * config.environmental_weight
+                total_sat = self.update_ratio * self.sociability * sat
+                if total_sat > max_sat:
+                    max_sat = total_sat
+                    province = p.living_place
+            if max_sat > config.migration_treshold:
+                return True, province
+            else:
+                return False, None
+        else:
+            return True, 'La Habana'
+
+    def sociable(self):
+        if self.sociability == 1:
+            return True
+        elif self.sociability == 0:
+            return False
+        treshold = random.normal(0.5, 0.2)
+        return True if self.sociability >= treshold else False
 
     def migrate(self, province):
         self.living_place = province

@@ -9,3 +9,7 @@ min_peers = 1
 max_peers = 10
 min_attractiveness = 0.4
 max_attractiveness = 10
+social_weight = 0.4
+economical_weight = 0.4
+environmental_weight = 0.2
+migration_treshold = 0.7
