@@ -1,0 +1,17 @@
+Pinar del Río	66.1
+Artemisa	123.6
+La Habana	2892.0
+Mayabeque	100.7
+Matanzas	58.9
+Villa Clara	94.1
+Cienfuegos	96.5
+Sancti Spíritus	68.4
+Ciego de Ávila	61.1
+Camagüey	50.2
+Las Tunas	80.8
+Holguín	112.3
+Granma	99.6
+Santiago de Cuba	168.5
+Guantánamo	83.6
+Isla de la Juventud	35.0
+Total	101.6
