@@ -9,7 +9,7 @@ import json
 living_place_per_province = json.load(open('data/parsed_living_places'))
 salary_per_province = json.load(open('data/parsed_salaries'))
 provinces = salary_per_province.keys()
-population_per_province = { p:value['Total'] for (p,value) in living_place_per_province.items() if p in provinces }
+population_per_province = {p: value['Total'] for (p, value) in living_place_per_province.items() if p in provinces}
 
 
 class Agent:
@@ -74,6 +74,7 @@ def define_salary(province):
     return random.normal(salary_per_province[province], 100)
 
 
+# region Comments
 # def define_gender(province, gender_per_province):
 #     women_percent = gender_per_province[province]
 #     r = random.uniform(0, 100)
@@ -110,6 +111,8 @@ def define_salary(province):
 
 # age_group_per_province = {'La Habana': [12,8,13,7,10,11,9,10]}
 # marital_status = {'La Habana': []}
+
+#endregion
 
 
 if __name__ == '__main__':
