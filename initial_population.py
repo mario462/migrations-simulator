@@ -42,14 +42,24 @@ class Agent:
         self.living_place = living_place
         # self.marital_status = marital_status
 
-
     def __str__(self):
         return self.province + " " + str(self.age_group) + " " + self.gender + " " + self.living_place
 
-
-    def migrate(self):
+    def migration_decision(self):
+        if random.random() > 0.5:
+            p = self.choose_migration_province()
+            self.migrate(p)
+            return True
         return False
 
+    def update_interval_done(self):
+        return False
+
+    def migrate(self, province):
+        self.living_place = province
+
+    def choose_migration_province(self):
+        return 'La Habana'
 
 def initialize_connections(agents):
     for i in range(len(agents)):
@@ -76,10 +86,10 @@ def initialize_population():
 def define_living_place(province):
     distribution = living_place_per_province[province]
     r = random.uniform(0, sum(distribution.values))
-    sum = 0
+    total = 0
     for p in distribution:
-        sum += int(distribution[p])
-        if r <= sum:
+        total += int(distribution[p])
+        if r <= total:
             return p
 
 
@@ -91,11 +101,9 @@ def simulate(years):
     agents = initialize_population()
     while years > 0:
         for a in agents:
-            a.migrate()
+            if a.update_interval_done():
+                a.migration_decision()
         years -= 1
-
-
-
 
 
 # def define_gender(province, gender_per_province):
