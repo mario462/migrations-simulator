@@ -1,6 +1,7 @@
 __author__ = 'mario'
 
-from . import initial_population
+import initial_population
+
 
 def check_affected(agent):
     pass
@@ -39,16 +40,10 @@ def move_to_new_district(agent):
 
 
 if __name__ == '__main__':
-    agents = initialize_population()
-    year = 2016
-    while year < 2050:
-        for agent in agents:
-            if check_affected(agent):
-                push = measure_push(agent)
-                intervening = measure_intervening(agent)
-                pull = measure_pull(agent)
-                if migrate(push, intervening, pull):
-                    find_best_destination(agent)
-                    move_to_new_district(agent)
-                    update_attributes(agent)
-                    update_destination(agent)
+    agents = initial_population.initialize_population()
+    # year = 2016
+    # while year < 2050:
+    #     year += 1
+    #     for agent in agents:
+    #         if agent.update_interval_done():
+    #             agent.migration_decision()
