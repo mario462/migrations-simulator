@@ -62,9 +62,9 @@ class Agent:
         return 'La Habana'
 
 def initialize_connections(agents):
-    for i in range(len(agents)):
-        number_of_peers = random.uniform(config.peers_per_agent, 3)
-        agents[i].append(random.choice(agents, number_of_peers))
+    for a in agents:
+        number_of_peers = int(random.normal(config.peers_per_agent, 2))
+        a.peers = random.choice(agents, min(0, number_of_peers))
 
 
 def initialize_population():
