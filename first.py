@@ -9,7 +9,6 @@ import json
 import pprint as pp
 from UI.simulation_widget import Ui_SimulationWindow
 
-
 class SimWidget(QMainWindow, Ui_SimulationWindow):
     def __init__(self, parent=None):
         super(SimWidget, self).__init__(parent)
@@ -21,6 +20,8 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.worldMapBtn.clicked.connect(self.mapa_mundi)
         self.load_provincias()
         self.load_countries()
+
+        self.comboBoxProv.addItems([x for x in self.prov.keys()])
 
     def on_show_map_btn_clicked(self):
         # self.mapa_mundi()
@@ -36,7 +37,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         m.drawparallels(np.linspace(-90, 90, 7), labels=[1, 0, 0, 0])
         m.drawmeridians(np.linspace(0, 360, 9), labels=[0, 0, 1, 0])
 
-        selected_countries = ["Cuba", "Puerto Rico", "Estados Unidos de América", "Canadá", "España", "Francia", "Venezuela", "Brasil", "Argentina"]
+        selected_countries = ["Jamaica", "Cuba", "Puerto Rico", "Estados Unidos de América", "Canadá", "España", "Francia", "Venezuela", "Brasil", "Argentina"]
 
         lons = [self.countries[x][1] for x in selected_countries]
         lats = [self.countries[x][0] for x in selected_countries]
@@ -46,6 +47,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         labels = selected_countries
         for label, xpt, ypt in zip(labels, x, y):
             plt.text(xpt-0.3, ypt+0.1, label, color='b')
+
         plt.show()
 
     def mapa_cuba(self):
