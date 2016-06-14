@@ -24,6 +24,8 @@ class Agent:
         self.salary = salary
         self.unemployment = unemployment
         self.housing = housing
+        self.update_ratio = 0.9
+        self.satisfaction = -1
 
     def __str__(self):
         return self.province + " " + self.living_place
@@ -61,22 +63,33 @@ class Agent:
         treshold = random.normal(0.5, 0.2)
         return True if self.sociability >= treshold else False
 
-    def update_interval_done(self):
-        return False
-
     def migrate(self, province):
         self.living_place = province
 
     def choose_migration_province(self):
         return 'La Habana'
 
-    def satisfaction(self):
+    def update_needed(self):
+        return random.uniform() < self.update_ratio
+
+    def update_satisfaction(self):
         social_weight = 0.4
         economical_weight = 0.4
         environmental_weight = 1 - social_weight - economical_weight
-        return social_weight * self.social_satisfaction() \
+
+        self.update_ratio = (social_weight * (5-self.social_satisfaction()) \
+            + economical_weight * (5-self.economical_satisfaction()) \
+            + environmental_weight * (5-self.environmental_satisfaction())) / 5
+        if self.update_ratio <= 0.1:
+            self.update_ratio = 0.1
+        elif self.update_ratio >= 0.9:
+            self.update_ratio = 1
+
+        self.satisfaction = social_weight * self.social_satisfaction() \
             + economical_weight * self.economical_satisfaction() \
             + environmental_weight * self.environmental_satisfaction()
+
+        return self.satisfaction
 
     def social_satisfaction(self):
         peers_in_province = len([p for p in self.peers if p.living_place == self.living_place])
@@ -104,6 +117,11 @@ class Agent:
             return 5
         return ((attractiveness - config.min_attractiveness) / (
             config.max_attractiveness - config.min_attractiveness)) * 5
+
+    def evolve(self):
+        if self.update_needed():
+            self.update_satisfaction()
+            return self.migration_decision()
 
 
 def initialize_connections(agents):
