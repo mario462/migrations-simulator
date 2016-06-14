@@ -5,7 +5,7 @@ import csv
 import json
 
 
-with open('salario.txt') as f:
+with open('raw_salario.txt') as f:
     reader = csv.reader(f, dialect='excel-tab')
     dic = {}
     r = next(reader)

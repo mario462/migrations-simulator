@@ -10,7 +10,7 @@ order = ['Total', 'Pinar del Río', 'Artemisa', 'La Habana', 'Mayabeque', 'Matanz
 
 mapping = {}
 
-f = open('censo', 'r', encoding='latin-1')
+f = open('raw_living_places.txt', 'r', encoding='latin-1')
 lines = f.readlines()
 i = 0
 while i < len(lines) - 17:
