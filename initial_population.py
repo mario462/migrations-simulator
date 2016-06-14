@@ -22,9 +22,9 @@ class Agent:
         # self.marital_status = marital_status        self.province = province
         self.peers = peers
         self.living_place = living_place
+        self.salary = salary
         self.unemployment = unemployment
         self.housing = housing
-
 
     def __str__(self):
         return self.province + " " + str(self.age_group) + " " + self.gender + " " + self.living_place
@@ -44,6 +44,28 @@ class Agent:
 
     def choose_migration_province(self):
         return 'La Habana'
+
+    def satisfaction(self):
+        socw = 0.5
+        ecow = 1 - socw
+        return socw*self.social_satisfaction() + ecow*self.economic_satisfaction()
+
+    def social_satisfaction(self):
+        peers_in_province = len([p for p in self.peers if p.living_place == self.living_place])
+        if peers_in_province <= config.min_peers:
+            return 0
+        if peers_in_province >= config.max_peers:
+            return 5
+        return ((peers_in_province - config.min_peers) / (config.max_peers - config.min_peers)) * 5
+
+    def economic_satisfaction(self):
+        res = random.uniform(0, 0.5) if self.unemployment else random.uniform(0.5, 1)
+        res += random.uniform(0, 0.5) if self.housing else random.uniform(0.5, 1)
+        if self.salary <= config.min_salary:
+            return res
+        if self.salary >= config.max_salary:
+            return res + 3
+        return ((self.salary - config.min_salary) / (config.max_salary - config.min_salary)) * 5
 
 
 def initialize_connections(agents):

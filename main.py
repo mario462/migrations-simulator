@@ -10,10 +10,15 @@ class Simulation:
     def initialize(self):
         self.agents = initial_population.initialize_population()
 
+    def print_satisfactions(self):
+        for v in self.agents:
+            for a in self.agents[v]:
+                print(a.satisfaction())
+
 if __name__ == '__main__':
     sim = Simulation()
     sim.initialize()
-    print()
+    sim.print_satisfactions()
     # year = 2016
     # while year < 2050:
     #     year += 1

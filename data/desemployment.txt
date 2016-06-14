@@ -1,0 +1,16 @@
+Pinar del Río	2.9
+Artemisa	4.0
+La Habana	4.1
+Mayabeque	3.5
+Matanzas	3.4
+Villa Clara	3.0
+Cienfuegos	3.1
+Sancti Spíritus	2.6
+Ciego de Ávila	3.1
+Camagüey	3.2
+Las Tunas	2.9
+Holguín	2.8
+Granma	5.2
+Santiago de Cuba	3.1
+Guantánamo	3.8
+Isla de la Juventud	2.5
