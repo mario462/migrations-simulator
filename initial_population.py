@@ -76,7 +76,7 @@ def initialize_population():
             # a = define_age_group(p)
             # g = define_gender(p, gender_per_province)
             l = define_living_place(p.capitalize())
-            s = salary_per_province(p)
+            s = salary_per_province[p]
             agents[p].append(Agent(province=p, salary=s, living_place=l))
 
     initialize_connections(agents)
