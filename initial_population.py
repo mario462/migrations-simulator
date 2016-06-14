@@ -62,9 +62,9 @@ class Agent:
         return 'La Habana'
 
 def initialize_connections(agents):
-    for i in range(len(agents)):
-        number_of_peers = random.uniform(config.peers_per_agent, 3)
-        agents[i].append(random.choice(agents, number_of_peers))
+    for a in agents:
+        number_of_peers = int(random.normal(config.peers_per_agent, 2))
+        a.peers = random.choice(agents, min(0, number_of_peers))
 
 
 def initialize_population():
@@ -76,7 +76,7 @@ def initialize_population():
             # a = define_age_group(p)
             # g = define_gender(p, gender_per_province)
             l = define_living_place(p.capitalize())
-            s = salary_per_province(p)
+            s = salary_per_province[p]
             agents[p].append(Agent(province=p, salary=s, living_place=l))
 
     initialize_connections(agents)
@@ -85,12 +85,13 @@ def initialize_population():
 
 def define_living_place(province):
     distribution = living_place_per_province[province]
-    r = random.uniform(0, sum(distribution.values))
+    r = random.uniform(0, sum(distribution.values) + 1)
     total = 0
     for p in distribution:
         total += int(distribution[p])
         if r <= total:
             return p
+    return province
 
 
 def define_salary(province):
