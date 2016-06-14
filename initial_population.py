@@ -105,7 +105,7 @@ class Agent:
             return 5
         return ((peers_in_province - config.min_peers) / (config.max_peers - config.min_peers)) * 5
 
-    def hipothetical_social_satisfaction(self, province):
+    def hypothetical_social_satisfaction(self, province):
         peers_in_province = len(list(filter(lambda x: x.living_place == province.name, self.peers)))
         if peers_in_province <= config.min_peers:
             return 0
@@ -122,7 +122,7 @@ class Agent:
             return res + 3
         return ((self.salary - config.min_salary) / (config.max_salary - config.min_salary)) * 3 + res
 
-    def hipothetical_economical_satisfaction(self, province):
+    def hypothetical_economical_satisfaction(self, province):
         res = random.uniform(0, 0.5) if define_unemployment(province) else random.uniform(0.5, 1)
         res += random.uniform(0, 0.5) if define_housing(province) else random.uniform(0.5, 1)
         salary = define_salary(province)
@@ -142,7 +142,7 @@ class Agent:
         return ((attractiveness - config.min_attractiveness) / (
             config.max_attractiveness - config.min_attractiveness)) * 5
 
-    def hipothetical_environmental_satisfaction(self, province):
+    def hypothetical_environmental_satisfaction(self, province):
         # house_price_per_province[self.living_place]
         attractiveness = province.density / cuban_density
         if attractiveness <= config.min_attractiveness:
@@ -236,47 +236,6 @@ def define_unemployment(province):
 
 def define_housing(province):
     return random.uniform(0, province.population) < 2 * province.housing
-
-
-# region Comments
-# def define_gender(province, gender_per_province):
-# women_percent = gender_per_province[province]
-# r = random.uniform(0, 100)
-# return 'female' if r < women_percent else 'male'
-
-
-# def define_age_group(province):
-# r = random.uniform(0, 100)
-#     sum = 0
-#     j = 0
-#     for i in age_group_per_province[province]:
-#         sum += i
-#         j += 1
-#         if r <= sum:
-#             return j*10
-
-
-# def import_data():
-#     provinces = []
-#     population_per_province = {}
-#     gender_per_province = {}
-#     f = open('population.txt')
-#     p = f.readline().replace('\n','')
-#     while p:
-#         provinces.append(p)
-#         population = int(f.readline().replace('\n','').replace(' ', ''))
-#         population_per_province[p] = population
-#         male = int(f.readline().replace('\n','').replace(' ', ''))
-#         gender_per_province[p] = (population-male)/population
-#         f.readline()
-#         p = f.readline().replace('\n','')
-#         print(p)
-#     return provinces, population_per_province, gender_per_province
-
-# age_group_per_province = {'La Habana': [12,8,13,7,10,11,9,10]}
-# marital_status = {'La Habana': []}
-
-#endregion
 
 
 if __name__ == '__main__':
