@@ -17,9 +17,7 @@ housing_per_province = json.load(open('data/parsed_housing'))
 
 class Agent:
     def __init__(self, province, living_place, salary, unemployment, housing, peers=[]):
-        # self.age_group = age_group
-        # self.gender = gender
-        # self.marital_status = marital_status        self.province = province
+        self.province = province
         self.peers = peers
         self.living_place = living_place
         self.salary = salary
@@ -27,7 +25,7 @@ class Agent:
         self.housing = housing
 
     def __str__(self):
-        return self.province + " " + str(self.age_group) + " " + self.gender + " " + self.living_place
+        return self.province + " " + self.living_place
 
     def migration_decision(self):
         if random.random() > 0.5:
