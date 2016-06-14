@@ -78,8 +78,6 @@ def initialize_population():
     for p in provinces:
         agents[p] = []
         for i in range(int(numpy.ceil(population_per_province[p] / config.people_per_agent))):
-            # a = define_age_group(p)
-            # g = define_gender(p, gender_per_province)
             l = define_living_place(p)
             s = define_salary(p)
             u = define_unemployment(p)
