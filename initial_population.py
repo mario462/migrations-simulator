@@ -65,14 +65,12 @@ def initialize_population():
 
 def define_living_place(province):
     distribution = living_place_per_province[province]
-    r = random.uniform(0, sum(distribution.values) + 1)
-    total = 0
-    for p in distribution:
-        total += int(distribution[p])
-        if r <= total:
-            return p
-    return province
-
+    total = province['Total']
+    probabilites = [distribution[x] / total for x in provinces]
+    selection = random.multinomial(1, probabilites)
+    for i in selection:
+        if i:
+            return provinces[i]
 
 def define_salary(province):
     return random.normal(salary_per_province[province], 100)
