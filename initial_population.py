@@ -75,9 +75,6 @@ class Agent:
     def migrate(self, province):
         self.living_place = province
 
-    def choose_migration_province(self):
-        return 'La Habana'
-
     def update_needed(self):
         return random.uniform() < self.update_ratio
 
@@ -109,7 +106,7 @@ class Agent:
         return ((peers_in_province - config.min_peers) / (config.max_peers - config.min_peers)) * 5
 
     def hipothetical_social_satisfaction(self, province):
-        peers_in_province = len(list(filter(lambda x: x.living_place == province, self.peers)))
+        peers_in_province = len(list(filter(lambda x: x.living_place == province.name, self.peers)))
         if peers_in_province <= config.min_peers:
             return 0
         if peers_in_province >= config.max_peers:
@@ -147,7 +144,7 @@ class Agent:
 
     def hipothetical_environmental_satisfaction(self, province):
         # house_price_per_province[self.living_place]
-        attractiveness = density_per_province[province] / density_per_province['Total']
+        attractiveness = province.density / cuban_density
         if attractiveness <= config.min_attractiveness:
             return 0
         if attractiveness >= config.max_attractiveness:
