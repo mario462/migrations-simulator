@@ -42,8 +42,8 @@ class Agent:
             max_sat, province = 0, None
             for p in self.peers:
                 sat = (p.social_satisfaction() - self.social_satisfaction()) * config.social_weight \
-                + (p.economical_satisfaction() - self.economical_satisfaction()) * config.economical_weight \
-                + (p.environmental_satisfaction() - self.environmental_satisfaction()) * config.environmental_weight
+                      + (p.economical_satisfaction() - self.economical_satisfaction()) * config.economical_weight \
+                      + (p.environmental_satisfaction() - self.environmental_satisfaction()) * config.environmental_weight
                 total_sat = self.update_ratio * self.sociability * sat
                 if total_sat > max_sat:
                     max_sat = total_sat
@@ -77,22 +77,30 @@ class Agent:
         economical_weight = 0.4
         environmental_weight = 1 - social_weight - economical_weight
 
-        self.update_ratio = (social_weight * (5-self.social_satisfaction()) \
-            + economical_weight * (5-self.economical_satisfaction()) \
-            + environmental_weight * (5-self.environmental_satisfaction())) / 5
+        self.update_ratio = (social_weight * (5 - self.social_satisfaction()) \
+                             + economical_weight * (5 - self.economical_satisfaction()) \
+                             + environmental_weight * (5 - self.environmental_satisfaction())) / 5
         if self.update_ratio <= 0.1:
             self.update_ratio = 0.1
         elif self.update_ratio >= 0.9:
             self.update_ratio = 1
 
         self.satisfaction = social_weight * self.social_satisfaction() \
-            + economical_weight * self.economical_satisfaction() \
-            + environmental_weight * self.environmental_satisfaction()
+                            + economical_weight * self.economical_satisfaction() \
+                            + environmental_weight * self.environmental_satisfaction()
 
         return self.satisfaction
 
     def social_satisfaction(self):
         peers_in_province = len([p for p in self.peers if p.living_place == self.living_place])
+        if peers_in_province <= config.min_peers:
+            return 0
+        if peers_in_province >= config.max_peers:
+            return 5
+        return ((peers_in_province - config.min_peers) / (config.max_peers - config.min_peers)) * 5
+
+    def hipothetical_social_satisfaction(self, province):
+        peers_in_province = len(list(filter(lambda x: x.living_place == province, self.peers)))
         if peers_in_province <= config.min_peers:
             return 0
         if peers_in_province >= config.max_peers:
@@ -106,11 +114,31 @@ class Agent:
             return res
         if self.salary >= config.max_salary:
             return res + 3
-        return ((self.salary - config.min_salary) / (config.max_salary - config.min_salary)) * 5
+        return ((self.salary - config.min_salary) / (config.max_salary - config.min_salary)) * 3 + res
+
+    def hipothetical_economical_satisfaction(self, province):
+        res = random.uniform(0, 0.5) if define_unemployment(province) else random.uniform(0.5, 1)
+        res += random.uniform(0, 0.5) if define_housing(province) else random.uniform(0.5, 1)
+        salary = define_salary(province)
+        if salary <= config.min_salary:
+            return res
+        if salary >= config.max_salary:
+            return res + 3
+        return ((salary - config.min_salary) / (config.max_salary - config.min_salary)) * 3 + res
 
     def environmental_satisfaction(self):
         # house_price_per_province[self.living_place]
         attractiveness = density_per_province[self.living_place] / density_per_province['Total']
+        if attractiveness <= config.min_attractiveness:
+            return 0
+        if attractiveness >= config.max_attractiveness:
+            return 5
+        return ((attractiveness - config.min_attractiveness) / (
+            config.max_attractiveness - config.min_attractiveness)) * 5
+
+    def hipothetical_environmental_satisfaction(self, province):
+        # house_price_per_province[self.living_place]
+        attractiveness = density_per_province[province] / density_per_province['Total']
         if attractiveness <= config.min_attractiveness:
             return 0
         if attractiveness >= config.max_attractiveness:
@@ -156,6 +184,7 @@ def define_living_place(province):
         if selection[i]:
             return provinces[i]
 
+
 def define_sociability():
     value = random.uniform(0, 1)
     if value <= 0.2:
@@ -163,6 +192,7 @@ def define_sociability():
     elif value >= 0.8:
         value = 1
     return value
+
 
 def define_salary(province):
     return random.normal(salary_per_province[province], 100)
@@ -180,7 +210,7 @@ def define_housing(p):
 # def define_gender(province, gender_per_province):
 # women_percent = gender_per_province[province]
 # r = random.uniform(0, 100)
-#     return 'female' if r < women_percent else 'male'
+# return 'female' if r < women_percent else 'male'
 
 
 # def define_age_group(province):
