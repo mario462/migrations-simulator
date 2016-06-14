@@ -1,12 +1,12 @@
-from mpl_toolkits.basemap import Basemap
-import matplotlib.pyplot as plt
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-import numpy as np
 import sys
 import os
 import json
-import pprint as pp
+
+from mpl_toolkits.basemap import Basemap
+import matplotlib.pyplot as plt
+from PyQt4.QtGui import *
+import numpy as np
+
 from UI.simulation_widget import Ui_SimulationWindow
 
 

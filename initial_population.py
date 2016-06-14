@@ -1,9 +1,11 @@
 __author__ = 'laila'
 
+import json
+
 import numpy
 import numpy.random as random
+
 import config
-import json
 
 
 provinces = []

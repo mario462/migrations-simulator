@@ -2,7 +2,6 @@
 __author__ = 'mario'
 
 import json
-import pprint
 
 order = ['Total', 'Pinar del Río', 'Artemisa', 'La Habana', 'Mayabeque', 'Matanzas',
          'Villa Clara', 'Cienfuegos', 'Sancti Spíritus', 'Ciego de Ávila', 'Camagüey',
