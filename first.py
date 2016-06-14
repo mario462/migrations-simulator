@@ -50,19 +50,16 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
 
     def mapa_cuba(self):
         plt.close()
-        c_lon = -79.5
-        c_lat = 21.5
-        delta_lon = 6
-        delta_lat = 2.5
+        c_lon, c_lat = -79.5, 21.5
+        delta_lon, delta_lat = 6, 2.5
 
         m = Basemap(projection='cyl', resolution='i', area_thresh=0.1, lat_0=c_lat, lon_0=c_lon,
                     llcrnrlat=c_lat-delta_lat, llcrnrlon=c_lon-delta_lon, urcrnrlat=c_lat+delta_lat, urcrnrlon=c_lon+delta_lon)
         m.drawcoastlines()
         m.fillcontinents(color=self.colorEarth, lake_color=self.colorWater)
         m.drawmapboundary(fill_color=self.colorWater)
-        # m.drawparallels(np.linspace(c_lat-delta_lat, c_lat+delta_lat, 7), labels=[1, 0, 0, 0], fmt='%.2f')
-        # m.drawmeridians(np.linspace(c_lon-delta_lon, c_lon+delta_lon, 9), labels=[0, 0, 1, 0])
-
+        m.drawparallels(np.linspace(c_lat-delta_lat, c_lat+delta_lat, 7), labels=[1, 0, 0, 0], fmt='%.2f')
+        m.drawmeridians(np.linspace(c_lon-delta_lon, c_lon+delta_lon, 9), labels=[0, 0, 1, 0])
         lons = [x[1] for x in self.prov.values()]
         lats = [x[0] for x in self.prov.values()]
         x, y = m(lons, lats)
