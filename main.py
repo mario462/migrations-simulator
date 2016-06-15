@@ -41,8 +41,11 @@ class Simulation:
 
 
 if __name__ == '__main__':
+    import time
+    start = time.time()
     sim = Simulation()
-    sim.initialize()
-    result = sim.simulate()
-    for r in result:
-        print(r)
+    result = sim.simulate(sim_number=1)
+    next(result)
+    end = time.time()
+    print(end-start)
+    print('Simulation ended')
