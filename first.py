@@ -9,6 +9,7 @@ import json
 import random
 import pprint as pp
 from UI.simulation_widget import Ui_SimulationWindow
+from main import Simulation
 
 
 def load_countries():
@@ -78,7 +79,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.ax = fig.add_subplot(111)
         self.is_plot = False
 
-        self.sim = Aux()
+        self.sim = Simulation()
 
         self.prov = load_provinces()
         self.countries = load_countries()
@@ -125,7 +126,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
     def on_initial_population_clicked(self):
         self.iteration = 0
         self.label.setText("paso:" + str(self.iteration))
-        population = self.sim.initial_population()
+        population = self.sim.population_per_province()
         # pp.pprint(population)
 
         self.mapa_cuba()
@@ -136,14 +137,14 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.iteration += 1
         self.label.setText("paso: " + str(self.iteration))
 
-        population = self.sim.step()
+        population, migration, living_place = self.sim.simulate(10)
         pp.pprint(population)
         self.mapa_cuba()
 
         self.print_population(population)
 
-        self.fill_table(self.tableWidget1, self.sim.tabla1())
-        self.fill_table(self.tableWidget2, self.sim.tabla2())
+        self.fill_table(self.tableWidget1, migration)
+        self.fill_table(self.tableWidget2, living_place)
 
     def print_population(self, population):
         lons = []
