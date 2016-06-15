@@ -183,13 +183,14 @@ class Agent:
 
 
 class Province:
-    def __init__(self, name, salary, unemployment, housing, density, population, living_places):
+    def __init__(self, name, salary, unemployment, housing, density, population, extension, living_places):
         self.name = name
         self.salary = salary
         self.unemployment = unemployment
         self.housing = housing
         self.density = density
         self.population = population
+        self.extension = extension
         self.living_places = living_places
 
     def __str__(self):
