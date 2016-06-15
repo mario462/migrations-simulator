@@ -31,6 +31,7 @@ class Simulation:
                          self.migrations[old.name][new.name] += int(people)
             self.population_per_province = {x.name: x.population for x in self.provinces}
             self.living_places_per_province = {x.name: x.living_places for x in self.provinces}
+            config.migration_threshold -= config.migration_threshold*0.1
             yield self.population_per_province, self.migrations, self.living_places_per_province
 
     def reset_migrations(self):
