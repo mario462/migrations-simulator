@@ -44,6 +44,8 @@ class Simulation:
     def change_salary(self, province, percent):
         applied = percent / 100
         province.salary *= applied
+        if province.salary > config.max_salary:
+            config.max_salary = (config.max_salary+province.salary)/2
 
     def change_housing(self, province, percent):
         applied = percent / 100
