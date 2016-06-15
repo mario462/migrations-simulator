@@ -30,7 +30,7 @@ class Agent:
         should, province, people = self.should_migrate(self.sociable())
         if should:
             old_province = self.living_place
-            self.migrate(province, people)
+            people = self.migrate(province, people)
             return True, old_province, province, people
         return False, None, None, None
 
@@ -79,16 +79,19 @@ class Agent:
 
     def migrate(self, province, people):
         old_province = self.living_place
+        new_province = province
+        original_province = self.province
+
+        people = min(people, original_province.living_places[old_province.name])
+
         old_province.population -= people
         old_province.density = old_province.population / old_province.extension
 
-        new_province = province
         new_province.population += people
         new_province.density = new_province.population / new_province.extension
 
-        original_province = self.province
         original_province.living_places[old_province.name] -= people
-        original_province.living_places[new_province.name] -= people
+        original_province.living_places[new_province.name] += people
 
         self.living_place = province
 
@@ -97,6 +100,8 @@ class Agent:
         self.unemployment = define_unemployment(province)
 
         self.update_ratio = 1
+
+        return people
 
     def update_needed(self):
         return random.uniform() < self.update_ratio
