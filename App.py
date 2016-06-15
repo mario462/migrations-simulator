@@ -283,7 +283,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         param = self.comboBoxEvPar.currentIndex()
         per_cent = float(self.dSpinBoxPerCent.value())
 
-        #TODO invocar los metodos necesarios
+        p = [x for x in self.sim.provinces if x.name == name_provinces[prov]][0]
 
         if param == 0:
             self.sim.change_housing(p, per_cent)
