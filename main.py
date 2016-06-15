@@ -28,7 +28,7 @@ class Simulation:
                 for a in self.agents[p]:
                     migrate, old, new, people = a.evolve()
                     if migrate:
-                         self.migrations[old.name][new.name] += int(people / config.people_per_agent)
+                         self.migrations[old.name][new.name] += int(people)
             self.population_per_province = {x.name: x.population for x in self.provinces}
             self.living_places_per_province = {x.name: x.living_places for x in self.provinces}
             yield self.population_per_province, self.migrations, self.living_places_per_province
@@ -43,11 +43,37 @@ class Simulation:
 
 if __name__ == '__main__':
     import time
-    start = time.time()
-    sim = Simulation()
-    result = sim.simulate(sim_number=1)
-    for r in result:
-        print(r)
-    end = time.time()
-    print(end-start)
-    print('Simulation ended')
+    p = initial_population.initialize_provinces()
+    a = initial_population.Agent(p[0])
+    a.peers.append(initial_population.Agent(p[0]))
+    a.peers.append(initial_population.Agent(p[0]))
+    a.peers.append(initial_population.Agent(p[0]))
+    a.peers.append(initial_population.Agent(p[0]))
+    a.peers.append(initial_population.Agent(p[0]))
+    a.peers.append(initial_population.Agent(p[0]))
+
+    ag = initial_population.Agent(p[0])
+    ag.living_place = p[1]
+    a.peers.append(ag)
+
+    print(a.province.name)
+    print(a.economical_satisfaction())
+    print(a.social_satisfaction())
+    print(a.environmental_satisfaction())
+
+    for i in range(1,len(p)):
+        print(p[i].name)
+        print(a.hypothetical_economical_satisfaction(p[i]))
+        print(a.hypothetical_social_satisfaction(p[i]))
+        print(a.hypothetical_environmental_satisfaction(p[i]))
+
+    # start = time.time()
+    # sim = Simulation()
+    # result = sim.simulate(sim_number=1)
+    # for r in result:
+    #     print(r)
+    # end = time.time()
+    # print(end-start)
+    # print('Simulation ended')
+
+
