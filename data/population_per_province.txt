@@ -1,0 +1,16 @@
+Pinar del Río	587 026
+Artemisa	494 631
+La Habana	2 106 146
+Mayabeque	376 825
+Matanzas	694 476
+Villa Clara	791 216
+Cienfuegos	404 228
+Sancti Spíritus	463 458
+Ciego de Ávila	426 054
+Camagüey	771 905
+Las Tuna	532 645
+Holguín	1 035 072
+Granma	834 380
+Santiago de Cuba	1 049 084
+Guantánamo	515 428
+Isla de la Juventud	84 751
