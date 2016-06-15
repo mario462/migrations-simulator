@@ -162,6 +162,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
 
     def on_next_step_clicked(self):
         self.groupBoxFlechas.setEnabled(True)
+        self.comboBoxProv.setEnabled(True)
 
         self.iteration += 1
         self.label.setText("paso: " + str(self.iteration))
