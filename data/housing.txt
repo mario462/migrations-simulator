@@ -1,0 +1,16 @@
+Pinar del Río	196169
+Artemisa	155458
+La Habana	678932
+Mayabeque	121651
+Matanzas	232874
+Villa Clara	279103
+Cienfuegos	134068
+Sancti Spíritus	159010
+Ciego de Ávila	146628
+Camagüey	274188
+Las Tunas	184976
+Holguín	358732
+Granma	277317
+Santiago de Cuba	343340
+Guantánamo	164017
+Isla de la Juventud	28106
