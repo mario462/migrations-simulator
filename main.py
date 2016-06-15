@@ -14,9 +14,11 @@ class Simulation:
     def initialize(self):
         self.provinces = initial_population.initialize_provinces()
         self.agents = initial_population.initialize_population()
+        print('Initialized')
 
     def simulate(self, sim_number=10):
         while sim_number > 0:
+            print('Simulation ' + str(sim_number))
             sim_number -= 1
             self.reset_migrations()
             for p in self.agents:
@@ -32,8 +34,11 @@ class Simulation:
 
 
 if __name__ == '__main__':
+    import time
+    start = time.time()
     sim = Simulation()
-    sim.initialize()
-    result = sim.simulate()
-    for r in result:
-        print(r)
+    result = sim.simulate(sim_number=1)
+    next(result)
+    end = time.time()
+    print(end-start)
+    print('Simulation ended')

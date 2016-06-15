@@ -1,10 +1,8 @@
 __author__ = 'laila'
 
 import json
-
 import numpy
 import numpy.random as random
-
 import config
 
 
@@ -29,10 +27,10 @@ class Agent:
         return self.province + " " + self.living_place
 
     def migration_decision(self):
-        should, province = self.should_migrate(self.sociable())
+        should, province, people = self.should_migrate(self.sociable())
         if should:
             old_province = self.living_place
-            self.migrate(province)
+            self.migrate(province, people)
             return True, old_province, province
         return False, None, None
 
@@ -48,10 +46,6 @@ class Agent:
                     if total_sat > max_sat:
                         max_sat = total_sat
                         province = p.living_place
-            if max_sat > config.migration_threshold:
-                return True, province
-            else:
-                return False, None
         else:
             max_sat, province = 0, None
             for p in provinces:
@@ -63,10 +57,17 @@ class Agent:
                     if total_sat > max_sat:
                         max_sat = total_sat
                         province = p
-            if max_sat > config.migration_threshold:
-                return True, province
-            else:
-                return False, None
+
+        if max_sat > config.migration_threshold:
+            return True, province, config.people_per_agent
+        if max_sat > 9/10*(config.migration_threshold):
+            return True, province, (3/4)*config.people_per_agent
+        if max_sat > 8/10*(config.migration_threshold):
+            return True, province, (1/2)*config.people_per_agent
+        if max_sat > 7/10*(config.migration_threshold):
+            return True, province, (1/4)*config.people_per_agent
+        else:
+            return False, None, None
 
     def sociable(self):
         if self.sociability == 1:
@@ -191,8 +192,10 @@ def initialize_population():
 def initialize_connections(agents):
     for v in agents.values():
         for a in v:
-            number_of_peers = int(random.normal(config.peers_per_agent, 2))
-            a.peers = random.choice(v, max(0, number_of_peers))
+            number_of_peers = max(int(random.normal(config.peers_per_agent, 2)), 1)
+            randoms = random.randint(0, len(v), number_of_peers)
+            for r in randoms:
+                a.peers.append(v[r])
 
 
 def initialize_provinces():
