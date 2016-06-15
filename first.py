@@ -74,28 +74,8 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.migrateFromBtn.clicked.connect(self.on_migrate_from_clicked)
         #endregion
 
-    def fill_table(self):
-        d = self.sim.tabla1()
-        
-
-    def on_stop_clicked(self):
-        self.running = False
-
-    def on_sim_clicked(self):
-        self.running = True
-        self.simulate()
-
-    def simulate(self):
-        if self.running:
-            self.on_next_step_clicked()
-            self.timer.singleShot(self.time, self.simulate)
-
-    def on_initial_population_clicked(self):
-        self.iteration = 0
-        self.label.setText("paso:" + str(self.iteration))
-        population = self.sim.initial_population()
-        # pp.pprint(population)
-
+    def on_show_map_btn_clicked(self):
+        # self.mapa_mundi()
         self.mapa_cuba()
 
         self.print_population(population)
@@ -139,7 +119,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         m.drawparallels(np.linspace(-90, 90, 7), labels=[1, 0, 0, 0])
         m.drawmeridians(np.linspace(0, 360, 9), labels=[0, 0, 1, 0])
 
-        selected_countries = ["Jamaica", "Cuba", "Puerto Rico", "Estados Unidos de América", "Canadá", "España", "Francia", "Venezuela", "Brasil", "Argentina"]
+        selected_countries = ["Cuba", "Puerto Rico", "Estados Unidos de América", "Canadá", "España", "Francia", "Venezuela", "Brasil", "Argentina"]
 
         lons = [self.countries[x][1] for x in selected_countries]
         lats = [self.countries[x][0] for x in selected_countries]

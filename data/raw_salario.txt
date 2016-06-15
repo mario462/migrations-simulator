@@ -1,7 +1,9 @@
 Provincias	2011	2012	2013	2014    				
 
 Pinar del Río	450	471	480	601
+Artemisa	450	460	474	580
 La Habana	456	467	484	595
+Mayabeque	430	440	450	560
 Matanzas	468	483	484	607
 Villa Clara	456	466	476	603
 Cienfuegos	470	474	480	609
@@ -13,3 +15,4 @@ Holguín	455	462	471	575
 Granma	449	460	470	565
 Santiago de Cuba	436	433	443	540
 Guantánamo	431	434	442	548
+Isla de la Juventud	400	420	440	540
