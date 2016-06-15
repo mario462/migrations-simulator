@@ -223,13 +223,15 @@ def initialize_provinces():
     unemployment_per_province = json.load(open('data/parsed_unemployment'))
     housing_per_province = json.load(open('data/parsed_housing'))
     density_per_province = json.load(open('data/parsed_density'))
+    extension_per_province = json.load(open('data/parsed_extension'))
     population_per_province = json.load(open('data/parsed_population'))
     global province_names
     province_names = list(salary_per_province.keys())
     for p in province_names:
         provinces.append(Province(name=p, salary=salary_per_province[p], unemployment=unemployment_per_province[p],
                              housing=housing_per_province[p], density=density_per_province[p],
-                             population=population_per_province[p], living_places=living_places_per_province[p]))
+                             population=population_per_province[p], extension=extension_per_province[p],
+                             living_places=living_places_per_province[p]))
     return provinces
 
 
