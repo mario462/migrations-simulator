@@ -2,7 +2,7 @@ __author__ = 'mario'
 
 import initial_population
 import config
-
+import random
 
 class Simulation:
     def __init__(self):
@@ -24,11 +24,18 @@ class Simulation:
             print('Simulation ' + str(sim_number))
             sim_number -= 1
             self.reset_migrations()
+            deads = 0
             for p in self.agents:
                 for a in self.agents[p]:
-                    migrate, old, new, people = a.evolve()
-                    if migrate:
-                         self.migrations[old.name][new.name] += int(people / config.people_per_agent)
+                    if random.random() > 0.3:
+                        a.die()
+                        deads += 1
+                    else:
+                        migrate, old, new, people = a.evolve()
+                        if migrate:
+                             self.migrations[old.name][new.name] += int(people / config.people_per_agent)
+            print("Dead count:" + " " + str(deads))
+            self.agents = initial_population.add_new_agents(self.agents)
             self.population_per_province = {x.name: x.population for x in self.provinces}
             self.living_places_per_province = {x.name: x.living_places for x in self.provinces}
             yield self.population_per_province, self.migrations, self.living_places_per_province

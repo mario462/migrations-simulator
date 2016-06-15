@@ -26,6 +26,9 @@ class Agent:
     def __str__(self):
         return self.province + " " + self.living_place
 
+    def die(self):
+        del self #TODO modified city population, etc
+
     def migration_decision(self):
         should, province, people = self.should_migrate(self.sociable())
         if should:
@@ -35,8 +38,8 @@ class Agent:
         return False, None, None, None
 
     def should_migrate(self, sociable):
+        max_sat, province = 0, None
         if sociable:
-            max_sat, province = 0, None
             for p in self.peers:
                 if p.living_place != self.living_place:
                     sat = max(p.social_satisfaction() - self.social_satisfaction(), 0) * config.social_weight \
@@ -47,7 +50,6 @@ class Agent:
                         max_sat = total_sat
                         province = p.living_place
         else:
-            max_sat, province = 0, None
             for p in provinces:
                 if p != self.living_place:
                     sat = max(self.hypothetical_social_satisfaction(p) - self.social_satisfaction(), 0) * config.social_weight \
@@ -57,15 +59,8 @@ class Agent:
                     if total_sat > max_sat:
                         max_sat = total_sat
                         province = p
-
         if max_sat > config.migration_threshold:
             return True, province, config.people_per_agent
-        if max_sat > 9/10*(config.migration_threshold):
-            return True, province, (3/4)*config.people_per_agent
-        if max_sat > 8/10*(config.migration_threshold):
-            return True, province, (1/2)*config.people_per_agent
-        if max_sat > 7/10*(config.migration_threshold):
-            return True, province, (1/4)*config.people_per_agent
         else:
             return False, None, None
 
@@ -134,7 +129,7 @@ class Agent:
         return ((peers_in_province - config.min_peers) / (config.max_peers - config.min_peers)) * 5
 
     def hypothetical_social_satisfaction(self, province):
-        peers_in_province = len(list(filter(lambda x: x.living_place == province.name, self.peers)))
+        peers_in_province = len(list(filter(lambda x: x.living_place.name == province.name, self.peers)))
         if peers_in_province <= config.min_peers:
             return 0
         if peers_in_province >= config.max_peers:
@@ -221,6 +216,24 @@ def initialize_connections(agents):
             for r in randoms:
                 a.peers.append(v[r])
 
+
+def add_new_agents(old_agents):
+    number = random.randint(6000, 10000)
+    for i in range(number):
+        p = random.randint(0, len(provinces))
+        province = provinces[p]
+        agent = Agent(province=province)
+        if province.name not in old_agents:
+            old_agents[province.name] = []
+        available = old_agents[province.name]
+        number_of_peers = max(int(random.normal(config.peers_per_agent, 2)), 1)
+        randoms = random.randint(0, len(available), number_of_peers)
+        for r in randoms:
+            agent.peers.append(available[r])
+            if random.random() > 0.5:
+                available[r].peers.append(agent)
+        old_agents[province.name].append(agent)
+    return old_agents
 
 def initialize_provinces():
     living_places_per_province = json.load(open('data/parsed_living_places'))

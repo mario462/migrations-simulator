@@ -13,3 +13,5 @@ social_weight = 1
 economical_weight = 1
 environmental_weight = 0.2
 migration_threshold = 0
+min_age = 20
+max_age = 70
