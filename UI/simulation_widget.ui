@@ -25,11 +25,82 @@
         <string>Migraciones Internas</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="0">
-         <widget class="QPushButton" name="cubaMapBtn">
-          <property name="text">
-           <string>Mapa</string>
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox">
+          <property name="autoFillBackground">
+           <bool>false</bool>
           </property>
+          <property name="title">
+           <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QPushButton" name="initialPopulationBtn">
+             <property name="text">
+              <string>Poblacion inicial</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="nextStepBtn">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Siguiente paso</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="simBtn">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Simulacion</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="stopBtn">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Parar</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>paso:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
          </widget>
         </item>
         <item row="0" column="1" rowspan="2">
@@ -39,7 +110,7 @@
           </property>
           <widget class="QWidget" name="tab_3">
            <attribute name="title">
-            <string>Tabla 1</string>
+            <string>Cantidad que emigran por provincia</string>
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
@@ -111,7 +182,7 @@
           </widget>
           <widget class="QWidget" name="tab_4">
            <attribute name="title">
-            <string>Tabla 2</string>
+            <string>Inmigrantes por provincia</string>
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <item>
@@ -183,71 +254,18 @@
           </widget>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QGroupBox" name="groupBox">
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
+        <item row="1" column="0">
+         <widget class="QGroupBox" name="groupBox_2">
           <property name="title">
-           <string>General</string>
+           <string>Flechas en el mapa</string>
           </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-          <property name="checkable">
-           <bool>false</bool>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
-            <widget class="QPushButton" name="initialPopulationBtn">
-             <property name="text">
-              <string>Poblacion inicial</string>
+            <widget class="QComboBox" name="comboBoxProv">
+             <property name="enabled">
+              <bool>false</bool>
              </property>
             </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="nextStepBtn">
-             <property name="text">
-              <string>Siguiente paso</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="simBtn">
-             <property name="text">
-              <string>Simulacion</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="stopBtn">
-             <property name="text">
-              <string>Parar</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>paso:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>

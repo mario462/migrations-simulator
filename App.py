@@ -43,6 +43,7 @@ name_provinces = [
     "Isla de la Juventud"
 ]
 short_provinces = [
+    "Tot",
     "PRI",
     "LHA",
     "MTZ",
@@ -56,7 +57,7 @@ short_provinces = [
     "LTU",
     "GRM",
     "HOL",
-    "STG",
+    "SCU",
     "GTM",
     "IJV"
 ]
@@ -83,9 +84,14 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.prov = load_provinces()
         self.countries = load_countries()
 
+        aux = name_provinces.copy()
+        aux.insert(0, "None")
+        self.comboBoxProv.addItems(aux)
+        self.comboBoxProv.currentIndexChanged.connect(self.on_comboBoxProv_indexChanged)
+
         #region Buttons
         self.worldMapBtn.clicked.connect(self.mapa_mundi)
-        self.cubaMapBtn.clicked.connect(self.mapa_cuba)
+        # self.cubaMapBtn.clicked.connect(self.mapa_cuba)
         self.initialPopulationBtn.clicked.connect(self.on_initial_population_clicked)
         self.nextStepBtn.clicked.connect(self.on_next_step_clicked)
         self.simBtn.clicked.connect(self.on_sim_clicked)
@@ -105,10 +111,15 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
     def fill_table(self, table, data):
         for i, name in enumerate(name_provinces):
             d_name = data[name]
+            total = 0
             for j, name in enumerate(name_provinces):
-                value = d_name[name]
-                item = QTableWidgetItem(str(value))
-                table.setItem(i, j, item)
+                if name in d_name:
+                    value = d_name[name]
+                    total += value
+                    item = QTableWidgetItem(str(value))
+                    table.setItem(i, j, item)
+            item = QTableWidgetItem(str(total))
+            table.setItem(i, 0, item)
 
     def on_stop_clicked(self):
         self.running = False
@@ -123,6 +134,10 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
             self.timer.singleShot(self.time, self.simulate)
 
     def on_initial_population_clicked(self):
+        self.nextStepBtn.setEnabled(True)
+        self.stopBtn.setEnabled(True)
+        self.simBtn.setEnabled(True)
+
         self.iteration = 0
         self.label.setText("paso:" + str(self.iteration))
         population = self.sim.population()
@@ -133,27 +148,27 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.print_population(population)
         # self.print_arrow()
 
-    def print_arrow(self):
-        coord_1 = self.prov["La Habana"]
-        coord_2 = self.prov["Guantánamo"]
-
-        x, y = self.m([coord_1[1], coord_2[1]], [coord_1[0], coord_2[0]])
-
-        plt.annotate("", xytext=(x[0], y[0]), xy=(x[1], y[1]), arrowprops=dict(arrowstyle='fancy'))
-        plt.draw()
-
     def on_next_step_clicked(self):
+        self.comboBoxProv.setEnabled(True)
+
         self.iteration += 1
         self.label.setText("paso: " + str(self.iteration))
 
-        population, migration, living_place = next(self.iter)
-        pp.pprint(population)
+        try:
+            self.population, self.migration, self.living_place = next(self.iter)
+            # pp.pprint(self.population)
+            self.fill_map()
+            self.fill_tables()
+        except StopIteration:
+            self.running = False
+
+    def fill_map(self):
         self.mapa_cuba()
+        self.print_population(self.population)
 
-        self.print_population(population)
-
-        self.fill_table(self.tableWidget1, migration)
-        self.fill_table(self.tableWidget2, living_place)
+    def fill_tables(self):
+        self.fill_table(self.tableWidget1, self.migration)
+        self.fill_table(self.tableWidget2, self.living_place)
 
     def print_population(self, population):
         lons = []
@@ -167,35 +182,38 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         x, y = self.m(lons, lats)
         # m.plot(x, y, '#000000', markersize=10)
 
-        labels = [x for x in population.values()]
+        labels = [int(x) for x in population.values()]
         for label, xpt, ypt in zip(labels, x, y):
-            plt.text(xpt, ypt, label)
+            plt.text(xpt-0.28, ypt-0.18, label)
 
         # plt.show()
         plt.draw()
 
     def mapa_mundi(self):
         plt.close()
-        m = Basemap(projection='cyl', resolution='l', area_thresh=1000.0)
-        m.drawcoastlines()
-        m.fillcontinents(color=self.colorEarth, lake_color=self.colorWater)
-        m.drawmapboundary(fill_color=self.colorWater)
-        m.drawcountries()
-        m.drawparallels(np.linspace(-90, 90, 7), labels=[1, 0, 0, 0])
-        m.drawmeridians(np.linspace(0, 360, 9), labels=[0, 0, 1, 0])
+        self.ax.clear()
+        self.m = Basemap(projection='cyl', resolution='l', area_thresh=1000.0)
+        self.m.drawcoastlines()
+        self.m.fillcontinents(color=self.colorEarth, lake_color=self.colorWater)
+        self.m.drawmapboundary(fill_color=self.colorWater)
+        self.m.drawcountries()
+        self.m.drawparallels(np.linspace(-90, 90, 7), labels=[1, 0, 0, 0])
+        self.m.drawmeridians(np.linspace(0, 360, 9), labels=[0, 0, 1, 0])
 
-        selected_countries = ["Jamaica", "Cuba", "Puerto Rico", "Estados Unidos de América", "Canadá", "España", "Francia", "Venezuela", "Brasil", "Argentina"]
+        selected_countries = ["Cuba", "Estados Unidos de América", "España", "Venezuela", "Brasil", "Rusia"]
+
 
         lons = [self.countries[x][1] for x in selected_countries]
         lats = [self.countries[x][0] for x in selected_countries]
-        x, y = m(lons, lats)
-        m.plot(x, y, 'bo', markersize=10)
+        x, y = self.m(lons, lats)
+        # self.m.plot(x, y, 'bo', markersize=6)
 
         labels = selected_countries
         for label, xpt, ypt in zip(labels, x, y):
             plt.text(xpt-0.3, ypt+0.1, label, color='b')
 
-        # plt.show()
+        plt.show()
+        # plt.draw()
 
     def mapa_cuba(self):
         # plt.close()
@@ -210,14 +228,14 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.m.drawmapboundary(fill_color=self.colorWater)
         self.m.drawparallels(np.linspace(c_lat-delta_lat, c_lat+delta_lat, 7), labels=[1, 0, 0, 0], fmt='%.2f')
         self.m.drawmeridians(np.linspace(c_lon-delta_lon, c_lon+delta_lon, 9), labels=[0, 0, 1, 0])
-        lons = [x[1] for x in self.prov.values()]
-        lats = [x[0] for x in self.prov.values()]
+        lons = [self.prov[x][1] for x in name_provinces]
+        lats = [self.prov[x][0] for x in name_provinces]
         x, y = self.m(lons, lats)
         self.m.plot(x, y, 'bo', markersize=6)
 
-        labels = self.prov.keys()
+        labels = short_provinces[1:]
         for label, xpt, ypt in zip(labels, x, y):
-            self.ax.text(xpt-0.3, ypt+0.1, label, color='w')
+            self.ax.text(xpt-0.15, ypt+0.1, label, color='w')
 
         if not self.is_plot:
             self.is_plot = True
@@ -225,6 +243,28 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         # return m
         # plt.show()
 
+    def on_comboBoxProv_indexChanged(self):
+        prov = self.comboBoxProv.currentText()
+        self.fill_map()
+        if prov != "None":
+            d = self.migration[prov]
+            for i in d.items():
+                self.print_arrow(prov, i[0], i[1])
+
+    def print_arrow(self, origin, destiny, cant):
+        if cant == 0:
+            return
+
+        coord_o = self.prov[origin]
+        coord_d = self.prov[destiny]
+
+        x, y = self.m([coord_o[1], coord_d[1]], [coord_o[0], coord_d[0]])
+
+        plt.annotate("", xytext=(x[0], y[0]), xy=(x[1], y[1]), arrowprops=dict(arrowstyle='fancy'))
+
+        coord_media = ((x[0] + x[1])/2, (y[0] + y[1])/2)
+        plt.text(coord_media[0], coord_media[1], str(cant), color='w')
+        plt.draw()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
