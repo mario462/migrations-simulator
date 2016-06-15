@@ -2,7 +2,7 @@ __author__ = 'mario'
 
 import initial_population
 import config
-
+import random
 
 class Simulation:
     def __init__(self):
@@ -49,6 +49,34 @@ class Simulation:
         applied = percent / 100
         province.housing = int(province.housing, applied)
 
+    def change_population(self, province, percent):
+        change = int(province.population * (percent / 100))
+        change = province.population - change
+        if change > 0:
+            for i in range(int(change / config.people_per_agent)):
+                self.add_agent(province)
+        else:
+            change *= (-1)
+            for i in range(int(change / config.people_per_agent)):
+                self.kill_agent(province)
+
+    def kill_agent(self, province):
+        pos = random.randint(0, len(self.agents[province]))
+        del(self.agents[province][pos])
+        province.population -= config.people_per_agent
+
+    def add_agent(self, province):
+        agent = initial_population.Agent(province=province)
+        province_agents = self.agents[province.name]
+        province_agents.append(agent)
+        for a in self.agents[province.name]:
+            number_of_peers = max(int(random.normal(config.peers_per_agent, 2)), 1)
+            randoms = random.randint(0, len(province_agents), number_of_peers)
+            for r in randoms:
+                a.peers.append(province_agents[r])
+                if random.random() > 0.7:
+                    province_agents[r].peers.append(agent)
+        province.population += config.people_per_agent
 
 
 if __name__ == '__main__':
