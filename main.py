@@ -41,6 +41,15 @@ class Simulation:
     def population(self):
         return self.population_per_province
 
+    def change_salary(self, province, percent):
+        applied = percent / 100
+        province.salary *= applied
+
+    def change_housing(self, province, percent):
+        applied = percent / 100
+        province.housing = int(province.housing, applied)
+
+
 
 if __name__ == '__main__':
     import time
