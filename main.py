@@ -37,7 +37,7 @@ class Simulation:
         dic = {x.name: 0 for x in self.provinces}
         self.migrations = {y.name: dic.copy() for y in self.provinces}
 
-    def population_per_province(self):
+    def population(self):
         return self.population_per_province
 
 

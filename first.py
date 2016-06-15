@@ -126,7 +126,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
     def on_initial_population_clicked(self):
         self.iteration = 0
         self.label.setText("paso:" + str(self.iteration))
-        population = self.sim.population_per_province()
+        population = self.sim.population()
         # pp.pprint(population)
 
         self.mapa_cuba()
