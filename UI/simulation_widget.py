@@ -38,6 +38,7 @@ class Ui_SimulationWindow(object):
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.groupBox = QtGui.QGroupBox(self.tab)
         self.groupBox.setAutoFillBackground(False)
+        self.groupBox.setTitle(_fromUtf8(""))
         self.groupBox.setAlignment(QtCore.Qt.AlignCenter)
         self.groupBox.setFlat(True)
         self.groupBox.setCheckable(False)
@@ -135,7 +136,6 @@ class Ui_SimulationWindow(object):
 
     def retranslateUi(self, SimulationWindow):
         SimulationWindow.setWindowTitle(_translate("SimulationWindow", "MainWindow", None))
-        self.groupBox.setTitle(_translate("SimulationWindow", "General", None))
         self.initialPopulationBtn.setText(_translate("SimulationWindow", "Poblacion inicial", None))
         self.nextStepBtn.setText(_translate("SimulationWindow", "Siguiente paso", None))
         self.simBtn.setText(_translate("SimulationWindow", "Simulacion", None))

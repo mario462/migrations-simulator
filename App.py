@@ -191,26 +191,29 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
 
     def mapa_mundi(self):
         plt.close()
-        m = Basemap(projection='cyl', resolution='l', area_thresh=1000.0)
-        m.drawcoastlines()
-        m.fillcontinents(color=self.colorEarth, lake_color=self.colorWater)
-        m.drawmapboundary(fill_color=self.colorWater)
-        m.drawcountries()
-        m.drawparallels(np.linspace(-90, 90, 7), labels=[1, 0, 0, 0])
-        m.drawmeridians(np.linspace(0, 360, 9), labels=[0, 0, 1, 0])
+        self.ax.clear()
+        self.m = Basemap(projection='cyl', resolution='l', area_thresh=1000.0)
+        self.m.drawcoastlines()
+        self.m.fillcontinents(color=self.colorEarth, lake_color=self.colorWater)
+        self.m.drawmapboundary(fill_color=self.colorWater)
+        self.m.drawcountries()
+        self.m.drawparallels(np.linspace(-90, 90, 7), labels=[1, 0, 0, 0])
+        self.m.drawmeridians(np.linspace(0, 360, 9), labels=[0, 0, 1, 0])
 
-        selected_countries = ["Jamaica", "Cuba", "Puerto Rico", "Estados Unidos de América", "Canadá", "España", "Francia", "Venezuela", "Brasil", "Argentina"]
+        selected_countries = ["Cuba", "Estados Unidos de América", "España", "Venezuela", "Brasil", "Rusia"]
+
 
         lons = [self.countries[x][1] for x in selected_countries]
         lats = [self.countries[x][0] for x in selected_countries]
-        x, y = m(lons, lats)
-        m.plot(x, y, 'bo', markersize=10)
+        x, y = self.m(lons, lats)
+        # self.m.plot(x, y, 'bo', markersize=6)
 
         labels = selected_countries
         for label, xpt, ypt in zip(labels, x, y):
             plt.text(xpt-0.3, ypt+0.1, label, color='b')
 
-        # plt.show()
+        plt.show()
+        # plt.draw()
 
     def mapa_cuba(self):
         # plt.close()
