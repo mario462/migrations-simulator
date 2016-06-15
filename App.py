@@ -83,9 +83,14 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.prov = load_provinces()
         self.countries = load_countries()
 
+        aux = name_provinces.copy()
+        aux.insert(0, "None")
+        self.comboBoxProv.addItems(aux)
+        self.comboBoxProv.currentIndexChanged.connect(self.on_comboBoxProv_indexChanged)
+
         #region Buttons
         self.worldMapBtn.clicked.connect(self.mapa_mundi)
-        self.cubaMapBtn.clicked.connect(self.mapa_cuba)
+        # self.cubaMapBtn.clicked.connect(self.mapa_cuba)
         self.initialPopulationBtn.clicked.connect(self.on_initial_population_clicked)
         self.nextStepBtn.clicked.connect(self.on_next_step_clicked)
         self.simBtn.clicked.connect(self.on_sim_clicked)
@@ -133,27 +138,22 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.print_population(population)
         # self.print_arrow()
 
-    def print_arrow(self):
-        coord_1 = self.prov["La Habana"]
-        coord_2 = self.prov["Guantánamo"]
-
-        x, y = self.m([coord_1[1], coord_2[1]], [coord_1[0], coord_2[0]])
-
-        plt.annotate("", xytext=(x[0], y[0]), xy=(x[1], y[1]), arrowprops=dict(arrowstyle='fancy'))
-        plt.draw()
-
     def on_next_step_clicked(self):
         self.iteration += 1
         self.label.setText("paso: " + str(self.iteration))
 
-        population, migration, living_place = next(self.iter)
-        pp.pprint(population)
+        self.population, self.migration, self.living_place = next(self.iter)
+        # pp.pprint(self.population)
+        self.fill_map()
+        self.fill_tables()
+
+    def fill_map(self):
         self.mapa_cuba()
+        self.print_population(self.population)
 
-        self.print_population(population)
-
-        self.fill_table(self.tableWidget1, migration)
-        self.fill_table(self.tableWidget2, living_place)
+    def fill_tables(self):
+        self.fill_table(self.tableWidget1, self.migration)
+        self.fill_table(self.tableWidget2, self.living_place)
 
     def print_population(self, population):
         lons = []
@@ -225,6 +225,25 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         # return m
         # plt.show()
 
+    def on_comboBoxProv_indexChanged(self):
+        prov = self.comboBoxProv.currentText()
+        self.fill_map()
+        if prov != "None":
+            d = self.migration[prov]
+            for i in d.items():
+                self.print_arrow(prov, i[0], i[1])
+
+    def print_arrow(self, origin, destiny, cant):
+        if cant == 0:
+            return
+
+        coord_o = self.prov[origin]
+        coord_d = self.prov[destiny]
+
+        x, y = self.m([coord_o[1], coord_d[1]], [coord_o[0], coord_d[0]])
+
+        plt.annotate("", xytext=(x[0], y[0]), xy=(x[1], y[1]), arrowprops=dict(arrowstyle='fancy'))
+        plt.draw()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
