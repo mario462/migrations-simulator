@@ -40,13 +40,14 @@ class Agent:
         if sociable:
             max_sat, province = 0, None
             for p in self.peers:
-                sat = (p.social_satisfaction() - self.social_satisfaction()) * config.social_weight \
-                      + (p.economical_satisfaction() - self.economical_satisfaction()) * config.economical_weight \
-                      + (p.environmental_satisfaction() - self.environmental_satisfaction()) * config.environmental_weight
-                total_sat = self.update_ratio * self.sociability * sat
-                if total_sat > max_sat:
-                    max_sat = total_sat
-                    province = p.living_place
+                if p.living_place != self.living_place:
+                    sat = (p.social_satisfaction() - self.social_satisfaction()) * config.social_weight \
+                          + (p.economical_satisfaction() - self.economical_satisfaction()) * config.economical_weight \
+                          + (p.environmental_satisfaction() - self.environmental_satisfaction()) * config.environmental_weight
+                    total_sat = self.update_ratio * self.sociability * sat
+                    if total_sat > max_sat:
+                        max_sat = total_sat
+                        province = p.living_place
             if max_sat > config.migration_threshold:
                 return True, province
             else:
