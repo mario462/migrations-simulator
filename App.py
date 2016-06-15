@@ -57,7 +57,7 @@ short_provinces = [
     "LTU",
     "GRM",
     "HOL",
-    "STG",
+    "SCU",
     "GTM",
     "IJV"
 ]
@@ -154,10 +154,13 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.iteration += 1
         self.label.setText("paso: " + str(self.iteration))
 
-        self.population, self.migration, self.living_place = next(self.iter)
-        # pp.pprint(self.population)
-        self.fill_map()
-        self.fill_tables()
+        try:
+            self.population, self.migration, self.living_place = next(self.iter)
+            # pp.pprint(self.population)
+            self.fill_map()
+            self.fill_tables()
+        except StopIteration:
+            self.running = False
 
     def fill_map(self):
         self.mapa_cuba()
@@ -179,9 +182,9 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         x, y = self.m(lons, lats)
         # m.plot(x, y, '#000000', markersize=10)
 
-        labels = [x for x in population.values()]
+        labels = [int(x) for x in population.values()]
         for label, xpt, ypt in zip(labels, x, y):
-            plt.text(xpt, ypt, label)
+            plt.text(xpt-0.28, ypt-0.18, label)
 
         # plt.show()
         plt.draw()
@@ -222,14 +225,14 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.m.drawmapboundary(fill_color=self.colorWater)
         self.m.drawparallels(np.linspace(c_lat-delta_lat, c_lat+delta_lat, 7), labels=[1, 0, 0, 0], fmt='%.2f')
         self.m.drawmeridians(np.linspace(c_lon-delta_lon, c_lon+delta_lon, 9), labels=[0, 0, 1, 0])
-        lons = [x[1] for x in self.prov.values()]
-        lats = [x[0] for x in self.prov.values()]
+        lons = [self.prov[x][1] for x in name_provinces]
+        lats = [self.prov[x][0] for x in name_provinces]
         x, y = self.m(lons, lats)
         self.m.plot(x, y, 'bo', markersize=6)
 
-        labels = self.prov.keys()
+        labels = short_provinces[1:]
         for label, xpt, ypt in zip(labels, x, y):
-            self.ax.text(xpt-0.3, ypt+0.1, label, color='w')
+            self.ax.text(xpt-0.15, ypt+0.1, label, color='w')
 
         if not self.is_plot:
             self.is_plot = True
