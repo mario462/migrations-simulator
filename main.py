@@ -2,7 +2,7 @@ __author__ = 'mario'
 
 import initial_population
 import config
-import random
+import numpy.random as random
 
 class Simulation:
     def __init__(self):
