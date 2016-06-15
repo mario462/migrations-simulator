@@ -90,7 +90,8 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.comboBoxProv.currentIndexChanged.connect(self.on_comboBoxProv_indexChanged)
 
         self.comboBoxEvProv.addItems(name_provinces)
-        self.comboBoxEvPar.addItems(["Cant de viviendas", "Salario medio", "Poblacion actual"])
+        self.parameters = ["Cant de viviendas", "Salario medio", "Poblacion actual", "Desempleo"]
+        self.comboBoxEvPar.addItems(self.parameters)
         self.comboBoxEvProv.setCurrentIndex(1)
         self.comboBoxEvPar.setCurrentIndex(1)
 
@@ -283,7 +284,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
 
         #TODO invocar los metodos necesarios
 
-        s = "El parametro %s cambio a un %.2f porciento en la provincia %s", (param, per_cent, prov)
+        s = "El parametro %s cambio a un %.2f porciento en la provincia %s", (self.parameters[param], per_cent, name_provinces[prov])
         QMessageBox.warning(self, "Nuevo evento", s)
         self.logs.append(s)
 
