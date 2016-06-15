@@ -84,6 +84,13 @@
              </property>
             </widget>
            </item>
+           <item row="3" column="1">
+            <widget class="QPushButton" name="updateEventBtn">
+             <property name="text">
+              <string>Actualizar</string>
+             </property>
+            </widget>
+           </item>
            <item row="3" column="0">
             <widget class="QPushButton" name="logsBtn">
              <property name="maximumSize">
@@ -94,13 +101,6 @@
              </property>
              <property name="text">
               <string>Logs</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QPushButton" name="updateEventBtn">
-             <property name="text">
-              <string>Actualizar</string>
              </property>
             </widget>
            </item>

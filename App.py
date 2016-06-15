@@ -8,6 +8,7 @@ import os
 import json
 import pprint as pp
 from UI.simulation_widget import Ui_SimulationWindow
+from UI.logs_widget import Ui_MainWindow
 from main import Simulation
 
 
@@ -105,7 +106,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.simBtn.clicked.connect(self.on_sim_clicked)
         self.stopBtn.clicked.connect(self.on_stop_clicked)
         self.updateEventBtn.clicked.connect(self.on_update_event_clicked)
-        self.logsBtn.clicked.connect(self.on_logsBtn_clicked)
+        self.logsBtn.clicked.connect(self.on_logsBtn)
         #endregion
 
         self.fill_header_table(self.tableWidget1)
@@ -284,22 +285,21 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
 
         #TODO invocar los metodos necesarios
 
-        s = "El parametro %s cambio a un %.2f porciento en la provincia %s", (self.parameters[param], per_cent, name_provinces[prov])
-        QMessageBox.warning(self, "Nuevo evento", s)
+        s = "El parametro %s cambio a un %.2f porciento en la provincia %s" % (self.parameters[param], per_cent, name_provinces[prov])
+        QMessageBox.warning(QMessageBox(), "Nuevo evento", s)
         self.logs.append(s)
 
-    def on_logsBtn_clicked(self):
+    def on_logsBtn(self):
         print("jose")
         log_wid = LogWidget(self.logs, self)
         log_wid.show()
 
-class LogWidget(QWidget):
+
+class LogWidget(QMainWindow, Ui_MainWindow):
     def __init__(self, logs, parent=None):
         super(LogWidget, self).__init__(parent)
-        listWidget = QListWidget()
-        layout = QHBoxLayout()
-        layout.addWidget(listWidget)
-        self.setLayout(layout)
+        self.setupUi(self)
+        self.listWidget.addItems(logs)
 
 
 if __name__ == '__main__':
