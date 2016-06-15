@@ -245,7 +245,7 @@ class Aux:
     def tabla1(self):
         dic = {x: random.randint(1, 10) for x in name_provinces}
         res = {x: dic.copy() for x in name_provinces}
-        pp.pprint(res)
+        # pp.pprint(res)
         return res
 
     def tabla2(self):
