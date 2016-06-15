@@ -8,13 +8,16 @@ class Simulation:
     def __init__(self):
         self.agents = []
         self.provinces = []
+        self.migrations = []
+        self.population_per_province = []
+        self.living_places_per_province = []
         self.initialize()
         self.reset_migrations()
 
     def initialize(self):
         self.provinces = initial_population.initialize_provinces()
         self.agents = initial_population.initialize_population()
-        print('Initialized')
+        self.population_per_province = {x: x.population for x in self.provinces}
 
     def simulate(self, sim_number=10):
         while sim_number > 0:
@@ -26,11 +29,16 @@ class Simulation:
                     migrate, old, new, people = a.evolve()
                     if migrate:
                         self.migrations[old.name][new.name] += people
-            yield self.migrations
+            self.population_per_province = {x: x.population for x in self.provinces}
+            self.living_places_per_province = {x: x.living_places for x in self.provinces}
+            yield self.population_per_province, self.migrations, self.living_places_per_province
 
     def reset_migrations(self):
-        dic = { x.name:0 for x in self.provinces }
-        self.migrations = { y.name:dic.copy() for y in self.provinces }
+        dic = {x.name: 0 for x in self.provinces}
+        self.migrations = {y.name: dic.copy() for y in self.provinces}
+
+    def population_per_province(self):
+        return self.population_per_province
 
 
 if __name__ == '__main__':
