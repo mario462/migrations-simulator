@@ -179,7 +179,7 @@ class Agent:
         if self.update_needed():
             self.update_satisfaction()
             return self.migration_decision()
-        return False
+        return False, None, None, None
 
 
 class Province:
