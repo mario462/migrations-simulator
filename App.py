@@ -116,7 +116,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         table.setRowCount(len(name_provinces))
         table.setVerticalHeaderLabels(name_provinces)
 
-        table.setColumnCount(len(name_provinces))
+        table.setColumnCount(len(short_provinces))
         table.setHorizontalHeaderLabels(short_provinces)
 
     def fill_table(self, table, data):
@@ -128,7 +128,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
                     value = d_name[name]
                     total += value
                     item = QTableWidgetItem(str(value))
-                    table.setItem(i, j, item)
+                    table.setItem(i, j+1, item)
             item = QTableWidgetItem(str(total))
             table.setItem(i, 0, item)
 
