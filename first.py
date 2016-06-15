@@ -134,6 +134,19 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
 
         self.print_population(population)
 
+        self.print_arrow()
+
+    def print_arrow(self):
+        coord_1 = self.prov["La Habana"]
+        coord_2 = self.prov["Guantánamo"]
+
+        x, y = self.m([coord_1[1], coord_2[1]], [coord_1[0], coord_2[0]])
+
+
+
+        plt.annotate("", xytext=(x[0], y[0]), xy=(x[1], y[1]), arrowprops=dict(arrowstyle='fancy'))
+        plt.draw()
+
     def on_next_step_clicked(self):
         self.iteration += 1
         self.label.setText("paso: " + str(self.iteration))
@@ -152,8 +165,8 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         lats = []
         labels = []
         for par in population.items():
-            lons.append(self.prov[par[0]][1])
-            lats.append(self.prov[par[0]][0])
+            lons.append(self.prov[par[0].name][1])
+            lats.append(self.prov[par[0].name][0])
             labels.append(par[1])
 
         x, y = self.m(lons, lats)
