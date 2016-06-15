@@ -35,13 +35,16 @@ class Agent:
         return False, None, None, None
 
     def should_migrate(self, sociable):
+        socials = self.social_satisfaction()
+        economicals = self.economical_satisfaction()
+        environmentals = self.environmental_satisfaction()
         if sociable:
             max_sat, province = 0, None
             for p in self.peers:
                 if p.living_place != self.living_place:
-                    sat = (p.social_satisfaction() - self.social_satisfaction()) * config.social_weight \
-                          + (p.economical_satisfaction() - self.economical_satisfaction()) * config.economical_weight \
-                          + (p.environmental_satisfaction() - self.environmental_satisfaction()) * config.environmental_weight
+                    sat = (p.social_satisfaction() - socials) * config.social_weight \
+                          + (p.economical_satisfaction() - economicals) * config.economical_weight \
+                          + (p.environmental_satisfaction() - environmentals) * config.environmental_weight
                     total_sat = self.update_ratio * self.sociability * sat
                     if total_sat > max_sat:
                         max_sat = total_sat
@@ -50,13 +53,15 @@ class Agent:
             max_sat, province = 0, None
             for p in provinces:
                 if p != self.living_place:
-                    sat = (self.hypothetical_social_satisfaction(p) - self.social_satisfaction()) * config.social_weight \
-                          + (self.hypothetical_economical_satisfaction(p) - self.economical_satisfaction()) * config.economical_weight \
-                          + (self.hypothetical_environmental_satisfaction(p) - self.environmental_satisfaction()) * config.environmental_weight
+                    sat = (self.hypothetical_social_satisfaction(p) - socials) * config.social_weight \
+                          + (self.hypothetical_economical_satisfaction(p) - economicals) * config.economical_weight \
+                          + (self.hypothetical_environmental_satisfaction(p) - environmentals) * config.environmental_weight
                     total_sat = self.update_ratio * sat
                     if total_sat > max_sat:
                         max_sat = total_sat
                         province = p
+
+        print(max_sat)
 
         if max_sat > config.migration_threshold:
             return True, province, config.people_per_agent
