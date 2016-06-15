@@ -282,11 +282,20 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         param = self.comboBoxEvPar.currentIndex()
         per_cent = float(self.dSpinBoxPerCent.value())
 
-        #TODO invocar los metodos necesarios
+        p = [x for x in self.sim.provinces if x.name == name_provinces[prov]][0]
 
-        s = "El parametro %s cambio a un %.2f porciento en la provincia %s", (self.parameters[param], per_cent, name_provinces[prov])
-        QMessageBox.warning(self, "Nuevo evento", s)
-        self.logs.append(s)
+        if param == 0:
+            self.sim.change_housing(p, per_cent)
+        if param == 1:
+            self.sim.change_salary(p, per_cent)
+        if param == 0:
+            self.sim.change_population(p, per_cent)
+        if param == 0:
+            self.sim.change_unemployment(p, per_cent)
+
+        s = "El parametro %s cambio a un %.2f porciento en la provincia %s" % (self.parameters[param], per_cent, name_provinces[prov])
+        QMessageBox.warning(QMessageBox(), "Nuevo evento", s)
+        # self.logs.append(s)
 
     def on_logsBtn_clicked(self):
         print("jose")
