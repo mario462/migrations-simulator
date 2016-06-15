@@ -14,4 +14,3 @@ with open('data/salario.txt') as f:
         dic[row[0]] = int(row[4])
     with open('data/parsed_salaries', 'w') as f1:
         json.dump(dic, f1, sort_keys=True, indent=4,ensure_ascii=False)
-
