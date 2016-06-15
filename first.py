@@ -20,7 +20,47 @@ def load_countries():
 def load_provinces():
     s = "data" + os.sep + "parsed_provinces"
     d = open(s, 'r')
-    return json.loads(d.read())
+    return json.loads(d.read(), encoding='utf-8')
+
+
+#region Provinces
+name_provinces = [
+    "Pinar del Río",
+    "La Habana",
+    "Matanzas",
+    "Artemisa",
+    "Mayabeque",
+    "Cienfuegos",
+    "Villa Clara",
+    "Sancti Spíritus",
+    "Ciego de Ávila",
+    "Camagüey",
+    "Las Tunas",
+    "Granma",
+    "Holguín",
+    "Santiago de Cuba",
+    "Guantánamo",
+    "Isla de la Juventud"
+]
+short_provinces = [
+    "PRI",
+    "LHA",
+    "MTZ",
+    "ART",
+    "MAY",
+    "CFG",
+    "VCL",
+    "SSP",
+    "CAV",
+    "CMG",
+    "LTU",
+    "GRM",
+    "HOL",
+    "STG",
+    "GTM",
+    "IJV"
+]
+#endregion
 
 
 class SimWidget(QMainWindow, Ui_SimulationWindow):
@@ -29,27 +69,6 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.setupUi(self)
         self.colorEarth = '#009900'
         self.colorWater = '#27b6e9'
-
-        #region Provinces
-        self.name_provinces = [
-            "Pinar del Río",
-            "La Habana",
-            "Matanzas",
-            "Artemisa",
-            "Mayabeque",
-            "Cienfuegos",
-            "Villa Clara",
-            "Sancti Spíritus",
-            "Ciego de Ávila",
-            "Camagüey",
-            "Las Tunas",
-            "Granma",
-            "Holguín",
-            "Santiago de Cuba",
-            "Guantánamo",
-            "Isla de la Juventud"
-        ]
-        #endregion
 
         self.timer = QTimer()
         self.time = 500
@@ -71,11 +90,44 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.nextStepBtn.clicked.connect(self.on_next_step_clicked)
         self.simBtn.clicked.connect(self.on_sim_clicked)
         self.stopBtn.clicked.connect(self.on_stop_clicked)
-        self.migrateFromBtn.clicked.connect(self.on_migrate_from_clicked)
         #endregion
 
-    def on_show_map_btn_clicked(self):
-        # self.mapa_mundi()
+        self.fill_header_table(self.tableWidget1)
+        self.fill_header_table(self.tableWidget2)
+
+    def fill_header_table(self, table):
+        table.setRowCount(len(name_provinces))
+        table.setVerticalHeaderLabels(name_provinces)
+
+        table.setColumnCount(len(name_provinces))
+        table.setHorizontalHeaderLabels(short_provinces)
+
+    def fill_table(self, table, data):
+        for i, name in enumerate(name_provinces):
+            d_name = data[name]
+            for j, name in enumerate(name_provinces):
+                value = d_name[name]
+                item = QTableWidgetItem(str(value))
+                table.setItem(i, j, item)
+
+    def on_stop_clicked(self):
+        self.running = False
+
+    def on_sim_clicked(self):
+        self.running = True
+        self.simulate()
+
+    def simulate(self):
+        if self.running:
+            self.on_next_step_clicked()
+            self.timer.singleShot(self.time, self.simulate)
+
+    def on_initial_population_clicked(self):
+        self.iteration = 0
+        self.label.setText("paso:" + str(self.iteration))
+        population = self.sim.initial_population()
+        # pp.pprint(population)
+
         self.mapa_cuba()
 
         self.print_population(population)
@@ -89,6 +141,9 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.mapa_cuba()
 
         self.print_population(population)
+
+        self.fill_table(self.tableWidget1, self.sim.tabla1())
+        self.fill_table(self.tableWidget2, self.sim.tabla2())
 
     def print_population(self, population):
         lons = []
@@ -119,7 +174,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         m.drawparallels(np.linspace(-90, 90, 7), labels=[1, 0, 0, 0])
         m.drawmeridians(np.linspace(0, 360, 9), labels=[0, 0, 1, 0])
 
-        selected_countries = ["Cuba", "Puerto Rico", "Estados Unidos de América", "Canadá", "España", "Francia", "Venezuela", "Brasil", "Argentina"]
+        selected_countries = ["Jamaica", "Cuba", "Puerto Rico", "Estados Unidos de América", "Canadá", "España", "Francia", "Venezuela", "Brasil", "Argentina"]
 
         lons = [self.countries[x][1] for x in selected_countries]
         lats = [self.countries[x][0] for x in selected_countries]
@@ -176,7 +231,16 @@ class Aux:
         return self.initial_population()
 
     def tabla1(self):
-        return {}
+        dic = {x: random.randint(1, 10) for x in name_provinces}
+        res = {x: dic.copy() for x in name_provinces}
+        pp.pprint(res)
+        return res
+
+    def tabla2(self):
+        dic = {x: random.randint(1, 10) for x in name_provinces}
+        res = {x: dic.copy() for x in name_provinces}
+        return res
+
 
 
 if __name__ == '__main__':
