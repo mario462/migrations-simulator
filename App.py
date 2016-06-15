@@ -89,6 +89,13 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.comboBoxProv.addItems(aux)
         self.comboBoxProv.currentIndexChanged.connect(self.on_comboBoxProv_indexChanged)
 
+        self.comboBoxEvProv.addItems(name_provinces)
+        self.comboBoxEvPar.addItems(["Cant de viviendas", "Salario medio", "Poblacion actual"])
+        self.comboBoxEvProv.setCurrentIndex(1)
+        self.comboBoxEvPar.setCurrentIndex(1)
+
+        self.logs = []
+
         #region Buttons
         self.worldMapBtn.clicked.connect(self.mapa_mundi)
         # self.cubaMapBtn.clicked.connect(self.mapa_cuba)
@@ -96,6 +103,8 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.nextStepBtn.clicked.connect(self.on_next_step_clicked)
         self.simBtn.clicked.connect(self.on_sim_clicked)
         self.stopBtn.clicked.connect(self.on_stop_clicked)
+        self.updateEventBtn.clicked.connect(self.on_update_event_clicked)
+        self.logsBtn.clicked.connect(self.on_logsBtn_clicked)
         #endregion
 
         self.fill_header_table(self.tableWidget1)
@@ -137,6 +146,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.nextStepBtn.setEnabled(True)
         self.stopBtn.setEnabled(True)
         self.simBtn.setEnabled(True)
+        self.groupBoxEventos.setEnabled(True)
 
         self.iteration = 0
         self.label.setText("paso:" + str(self.iteration))
@@ -149,7 +159,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         # self.print_arrow()
 
     def on_next_step_clicked(self):
-        self.comboBoxProv.setEnabled(True)
+        self.groupBoxFlechas.setEnabled(True)
 
         self.iteration += 1
         self.label.setText("paso: " + str(self.iteration))
@@ -265,6 +275,31 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         coord_media = ((x[0] + x[1])/2, (y[0] + y[1])/2)
         plt.text(coord_media[0], coord_media[1], str(cant), color='w')
         plt.draw()
+
+    def on_update_event_clicked(self):
+        prov = self.comboBoxEvProv.currentIndex()
+        param = self.comboBoxEvPar.currentIndex()
+        per_cent = float(self.dSpinBoxPerCent.value())
+
+        #TODO invocar los metodos necesarios
+
+        s = "El parametro %s cambio a un %.2f porciento en la provincia %s", (param, per_cent, prov)
+        QMessageBox.warning(self, "Nuevo evento", s)
+        self.logs.append(s)
+
+    def on_logsBtn_clicked(self):
+        print("jose")
+        log_wid = LogWidget(self.logs, self)
+        log_wid.show()
+
+class LogWidget(QWidget):
+    def __init__(self, logs, parent=None):
+        super(LogWidget, self).__init__(parent)
+        listWidget = QListWidget()
+        layout = QHBoxLayout()
+        layout.addWidget(listWidget)
+        self.setLayout(layout)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
