@@ -258,6 +258,9 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         x, y = self.m([coord_o[1], coord_d[1]], [coord_o[0], coord_d[0]])
 
         plt.annotate("", xytext=(x[0], y[0]), xy=(x[1], y[1]), arrowprops=dict(arrowstyle='fancy'))
+
+        coord_media = ((x[0] + x[1])/2, (y[0] + y[1])/2)
+        plt.text(coord_media[0], coord_media[1], str(cant), color='w')
         plt.draw()
 
 if __name__ == '__main__':
