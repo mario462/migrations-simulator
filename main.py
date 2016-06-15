@@ -47,7 +47,11 @@ class Simulation:
 
     def change_housing(self, province, percent):
         applied = percent / 100
-        province.housing = int(province.housing, applied)
+        province.housing = int(province.housing * applied)
+
+    def change_unemployment(self, province, percent):
+        applied = percent / 100
+        province.unemployment = int(province.unemployment * applied)
 
     def change_population(self, province, percent):
         change = int(province.population * (percent / 100))
