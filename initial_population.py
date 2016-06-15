@@ -31,8 +31,8 @@ class Agent:
         if should:
             old_province = self.living_place
             self.migrate(province, people)
-            return True, old_province, province
-        return False, None, None
+            return True, old_province, province, people
+        return False, None, None, None
 
     def should_migrate(self, sociable):
         if sociable:
@@ -77,18 +77,18 @@ class Agent:
         threshold = random.normal(0.5, 0.1)
         return True if self.sociability >= threshold else False
 
-    def migrate(self, province):
+    def migrate(self, province, people):
         old_province = self.living_place
-        old_province.population -= config.people_per_agent
+        old_province.population -= people
         old_province.density = old_province.population / old_province.extension
 
         new_province = province
-        new_province.population += config.people_per_agent
+        new_province.population += people
         new_province.density = new_province.population / new_province.extension
 
         original_province = self.province
-        original_province.living_places[old_province.name] -= config.people_per_agent
-        original_province.living_places[new_province.name] -= config.people_per_agent
+        original_province.living_places[old_province.name] -= people
+        original_province.living_places[new_province.name] -= people
 
         self.living_place = province
 

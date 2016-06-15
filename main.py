@@ -23,9 +23,9 @@ class Simulation:
             self.reset_migrations()
             for p in self.agents:
                 for a in self.agents[p]:
-                    migrate, old, new = a.evolve()
+                    migrate, old, new, people = a.evolve()
                     if migrate:
-                        self.migrations[old.name][new.name] += config.people_per_agent
+                        self.migrations[old.name][new.name] += people
             yield self.migrations
 
     def reset_migrations(self):
