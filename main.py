@@ -28,7 +28,7 @@ class Simulation:
                 for a in self.agents[p]:
                     migrate, old, new, people = a.evolve()
                     if migrate:
-                        self.migrations[old.name][new.name] += people
+                        self.migrations[old.name][new.name] += int(people / config.people_per_agent)
             self.population_per_province = {x.name: x.population for x in self.provinces}
             self.living_places_per_province = {x.name: x.living_places for x in self.provinces}
             yield self.population_per_province, self.migrations, self.living_places_per_province
@@ -45,9 +45,9 @@ if __name__ == '__main__':
     import time
     start = time.time()
     sim = Simulation()
-    result = sim.simulate(sim_number=2)
-    next(result)
-    next(result)
+    result = sim.simulate(sim_number=1)
+    for r in result:
+        print(r)
     end = time.time()
     print(end-start)
     print('Simulation ended')

@@ -1,7 +1,7 @@
 __author__ = 'laila'
 
 
-people_per_agent = 1000
+people_per_agent = 100
 peers_per_agent = 6
 min_salary = 310
 max_salary = 1000
