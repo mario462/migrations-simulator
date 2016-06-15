@@ -57,13 +57,26 @@ class Simulation:
                 self.add_agent(province)
         else:
             change *= (-1)
-            for i in range(int(change / config.people_per_agent)):
-                self.kill_agent(province)
+            change = int(change / config.people_per_agent)
+            self.kill_agents(province, change)
 
-    def kill_agent(self, province):
-        pos = random.randint(0, len(self.agents[province]))
-        del(self.agents[province][pos])
-        province.population -= config.people_per_agent
+    def kill_agents(self, province, count):
+        tokill = []
+        for v in self.agents.values():
+            for a in v:
+                if a.living_place == province:
+                    tokill.append(a)
+        pos = random.randint(0, len(tokill), count)
+        for v in self.agents.values():
+            for a in v:
+                for p in pos:
+                    agent = tokill[p]
+                    if agent in a.peers:
+                        a.peers.remove(agent)
+                    tokill[p].province.living_places[province.name].population -= config.people_per_agent
+                    del(tokill[p])
+
+        province.population = province.population - count * config.people_per_agent
 
     def add_agent(self, province):
         agent = initial_population.Agent(province=province)
