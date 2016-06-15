@@ -12,4 +12,4 @@ max_attractiveness = 10
 social_weight = 0.4
 economical_weight = 0.4
 environmental_weight = 0.2
-migration_treshold = 0.7
+migration_threshold = 0.7
