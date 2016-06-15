@@ -3,7 +3,7 @@ Artemisa	4003.24
 La Habana	728.26
 Mayabeque	3743.81
 Matanzas	11791.82
-Villa Clara	332.82
+Villa Clara	8411.81
 Cienfuegos	4188.61
 Sancti Spíritus	6777.28
 Ciego de Ávila	6971.64

@@ -260,11 +260,11 @@ def define_sociability():
 
 
 def define_salary(province):
-    return random.normal(province.salary, 150)
+    return random.normal(province.salary, 250)
 
 
 def define_unemployment(province):
-    return random.uniform(0, 100) < province.unemployment
+    return random.uniform(0, 100) < 2*province.unemployment
 
 
 def define_housing(province):
