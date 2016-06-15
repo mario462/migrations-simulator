@@ -78,7 +78,25 @@ class Agent:
         return True if self.sociability >= threshold else False
 
     def migrate(self, province):
+        old_province = self.living_place
+        old_province.population -= config.people_per_agent
+        old_province.density = old_province.population / old_province.extension
+
+        new_province = province
+        new_province.population += config.people_per_agent
+        new_province.density = new_province.population / new_province.extension
+
+        original_province = self.province
+        original_province.living_places[old_province.name] -= config.people_per_agent
+        original_province.living_places[new_province.name] -= config.people_per_agent
+
         self.living_place = province
+
+        self.salary = define_salary(province)
+        self.housing = define_housing(province)
+        self.unemployment = define_unemployment(province)
+
+        self.update_ratio = 1
 
     def update_needed(self):
         return random.uniform() < self.update_ratio
