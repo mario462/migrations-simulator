@@ -6,7 +6,6 @@ import numpy as np
 import sys
 import os
 import json
-import random
 import pprint as pp
 from UI.simulation_widget import Ui_SimulationWindow
 from main import Simulation
@@ -128,7 +127,6 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.label.setText("paso:" + str(self.iteration))
         population = self.sim.population()
         self.iter = self.sim.simulate(10)
-                # pp.pprint(population)
 
         self.mapa_cuba()
 
@@ -162,7 +160,6 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         lats = []
         labels = []
         for par in population.items():
-            print(type(par[0]))
             lons.append(self.prov[par[0]][1])
             lats.append(self.prov[par[0]][0])
             labels.append(par[1])
@@ -227,33 +224,6 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
             plt.show()
         # return m
         # plt.show()
-
-
-class Aux:
-    def __init__(self):
-        pass
-
-    def initial_population(self):
-        prov = load_provinces()
-        d = {}
-        for i in prov.items():
-            d[i[0]] = random.randint(1000, 10000)
-        return d
-
-    def step(self):
-        return self.initial_population()
-
-    def tabla1(self):
-        dic = {x: random.randint(1, 10) for x in name_provinces}
-        res = {x: dic.copy() for x in name_provinces}
-        pp.pprint(res)
-        return res
-
-    def tabla2(self):
-        dic = {x: random.randint(1, 10) for x in name_provinces}
-        res = {x: dic.copy() for x in name_provinces}
-        return res
-
 
 
 if __name__ == '__main__':
