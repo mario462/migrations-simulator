@@ -127,7 +127,8 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.iteration = 0
         self.label.setText("paso:" + str(self.iteration))
         population = self.sim.population()
-        # pp.pprint(population)
+        self.iter = self.sim.simulate(10)
+                # pp.pprint(population)
 
         self.mapa_cuba()
 
@@ -137,7 +138,7 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         self.iteration += 1
         self.label.setText("paso: " + str(self.iteration))
 
-        population, migration, living_place = self.sim.simulate(10)
+        population, migration, living_place = next(iter)
         pp.pprint(population)
         self.mapa_cuba()
 

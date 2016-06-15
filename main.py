@@ -45,9 +45,9 @@ if __name__ == '__main__':
     import time
     start = time.time()
     sim = Simulation()
-    result = sim.simulate(sim_number=2)
-    next(result)
-    next(result)
+    result = sim.simulate(sim_number=10)
+    for r in result:
+        pass
     end = time.time()
     print(end-start)
     print('Simulation ended')
