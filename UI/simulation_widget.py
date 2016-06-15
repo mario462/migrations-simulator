@@ -119,7 +119,7 @@ class Ui_SimulationWindow(object):
 
         self.retranslateUi(SimulationWindow)
         self.tabWidget.setCurrentIndex(0)
-        self.tabWidget_2.setCurrentIndex(1)
+        self.tabWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(SimulationWindow)
 
     def retranslateUi(self, SimulationWindow):

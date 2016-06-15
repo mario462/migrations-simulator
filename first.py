@@ -162,8 +162,8 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         lats = []
         labels = []
         for par in population.items():
-            lons.append(self.prov[par[0].name][1])
-            lats.append(self.prov[par[0].name][0])
+            lons.append(self.prov[par[0]][1])
+            lats.append(self.prov[par[0]][0])
             labels.append(par[1])
 
         x, y = self.m(lons, lats)
