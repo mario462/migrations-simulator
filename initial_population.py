@@ -87,8 +87,9 @@ class Agent:
         new_province.density = new_province.population / new_province.extension
 
         original_province = self.province
-        original_province.living_places[old_province.name] -= people
-        original_province.living_places[new_province.name] -= people
+        original_province.living_places[old_province.name] = max(0,
+                                                                 original_province.living_places[old_province.name] - people)
+        original_province.living_places[new_province.name] += people
 
         self.living_place = province
 
