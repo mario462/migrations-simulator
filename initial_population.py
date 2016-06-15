@@ -45,7 +45,7 @@ class Agent:
                 if total_sat > max_sat:
                     max_sat = total_sat
                     province = p.living_place
-            if max_sat > config.migration_treshold:
+            if max_sat > config.migration_threshold:
                 return True, province
             else:
                 return False, None
@@ -60,7 +60,7 @@ class Agent:
                     if total_sat > max_sat:
                         max_sat = total_sat
                         province = p
-            if max_sat > config.migration_treshold:
+            if max_sat > config.migration_threshold:
                 return True, province
             else:
                 return False, None
@@ -70,8 +70,8 @@ class Agent:
             return True
         elif self.sociability == 0:
             return False
-        treshold = random.normal(0.5, 0.1)
-        return True if self.sociability >= treshold else False
+        threshold = random.normal(0.5, 0.1)
+        return True if self.sociability >= threshold else False
 
     def migrate(self, province):
         old_province = self.living_place
