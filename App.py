@@ -43,6 +43,7 @@ name_provinces = [
     "Isla de la Juventud"
 ]
 short_provinces = [
+    "Tot",
     "PRI",
     "LHA",
     "MTZ",
@@ -110,10 +111,15 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
     def fill_table(self, table, data):
         for i, name in enumerate(name_provinces):
             d_name = data[name]
+            total = 0
             for j, name in enumerate(name_provinces):
-                value = d_name[name]
-                item = QTableWidgetItem(str(value))
-                table.setItem(i, j, item)
+                if name in d_name:
+                    value = d_name[name]
+                    total += value
+                    item = QTableWidgetItem(str(value))
+                    table.setItem(i, j, item)
+            item = QTableWidgetItem(str(total))
+            table.setItem(i, 0, item)
 
     def on_stop_clicked(self):
         self.running = False
@@ -128,6 +134,10 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
             self.timer.singleShot(self.time, self.simulate)
 
     def on_initial_population_clicked(self):
+        self.nextStepBtn.setEnabled(True)
+        self.stopBtn.setEnabled(True)
+        self.simBtn.setEnabled(True)
+
         self.iteration = 0
         self.label.setText("paso:" + str(self.iteration))
         population = self.sim.population()
@@ -139,6 +149,8 @@ class SimWidget(QMainWindow, Ui_SimulationWindow):
         # self.print_arrow()
 
     def on_next_step_clicked(self):
+        self.comboBoxProv.setEnabled(True)
+
         self.iteration += 1
         self.label.setText("paso: " + str(self.iteration))
 
